@@ -1,5 +1,9 @@
 define download_file ($url, $destination) {
   $filename = regsubst($url, '^http.*\/([0-9a-zA-Z_]+.exe)$', '\1')
+  
+  validate_re($url, '.+')
+  validate_re($destination, '.+')
+  validate_re($filename, '.+')
 
   exec { "download-${filename}":
     command   => "powershell.exe -ExecutionPolicy ByPass -Command \"\$webclient = New-Object System.Net.WebClient;\$webclient.DownloadFile('${url}', '${destination}\\${filename}');\"",
