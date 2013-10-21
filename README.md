@@ -1,5 +1,5 @@
 puppet-download_file
 =====================
 
-A define that can be used to download a file
-    dding a file to allow travis to build
+[![Build Status](https://travis-ci.org/opentable/puppet-download_file.png?branch=master)](https://travis-ci.org/opentable/puppet-download_file)
+
