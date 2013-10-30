@@ -3,12 +3,22 @@ require 'spec_helper'
 powershell = 'powershell.exe -ExecutionPolicy RemoteSigned'
 
 describe 'download_file', :type => :define do
-	describe 'when downloading a file' do
+	describe 'when downloading a file without a proxy' do
         let(:title)  {'Download DotNet 4.0'}
 		let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp' } }
 		
 		it { should contain_exec('download-test.exe').with({
-                                                         'command' => "powershell.exe -ExecutionPolicy ByPass -Command \"$webclient = New-Object System.Net.WebClient;$webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe');\"",
+                                                         'command' => "powershell.exe -ExecutionPolicy ByPass -Command \"$webclient = New-Object System.Net.WebClient;$proxyAddress = '';if ($proxyAddress -ne '') {if (!$proxyAddress.StartsWith('http://')) { $proxyAddress = 'http://' + $proxyAddress }$proxy = new-object System.Net.WebProxy;$proxy.Address = $proxyAddress;$webclient.proxy = $proxy;}try {$webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')} catch [Exception] {write-host $_.Exception.GetType().FullName; write-host $_.Exception.Message; write-host $_.Exception.InnerException.Message; throw $_.Exception;}\"",
+                                                         'onlyif'  => "powershell.exe -ExecutionPolicy ByPass -Command \"if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }\"",
+                                                     })}
+	end
+
+	describe 'when downloading a file using a proxy server' do
+        let(:title)  {'Download DotNet 4.0'}
+		let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp', :proxyAddress => 'test-proxy-01:8888' } }
+		
+		it { should contain_exec('download-test.exe').with({
+                                                         'command' => "powershell.exe -ExecutionPolicy ByPass -Command \"$webclient = New-Object System.Net.WebClient;$proxyAddress = 'test-proxy-01:8888';if ($proxyAddress -ne '') {if (!$proxyAddress.StartsWith('http://')) { $proxyAddress = 'http://' + $proxyAddress }$proxy = new-object System.Net.WebProxy;$proxy.Address = $proxyAddress;$webclient.proxy = $proxy;}try {$webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')} catch [Exception] {write-host $_.Exception.GetType().FullName; write-host $_.Exception.Message; write-host $_.Exception.InnerException.Message; throw $_.Exception;}\"",
                                                          'onlyif'  => "powershell.exe -ExecutionPolicy ByPass -Command \"if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }\"",
                                                      })}
 	end
