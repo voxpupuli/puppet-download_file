@@ -23,6 +23,33 @@ describe 'download_file', :type => :define do
                                                      })}
 	end
 
+	describe 'when downloading a file we want to check that the erb gets evaluated correctly' do
+		let(:title)  {'Download DotNet 4.0'}
+		let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp', :proxyAddress => 'test-proxy-01:8888' } }
+
+		it { should contain_file('C:\temp\download-test.ps1').with_content(
+"$webclient = New-Object System.Net.WebClient
+$proxyAddress = 'test-proxy-01:8888'
+if ($proxyAddress -ne '') {
+  if (!$proxyAddress.StartsWith('http://')) { 
+      $proxyAddress = 'http://' + $proxyAddress 
+        }
+
+          $proxy = new-object System.Net.WebProxy
+            $proxy.Address = $proxyAddress
+              $webclient.proxy = $proxy
+              }
+
+              try {
+                $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\temp\\test.exe')
+                } 
+                catch [Exception] {
+                  write-host $_.Exception.GetType().FullName
+                    write-host $_.Exception.Message
+                      write-host $_.Exception.InnerException.Message
+                        throw")}
+	end
+
     describe 'when not passing a destination url to the download define' do
 		let(:title)  {'Download DotNet 4.0'}
   		let(:params) { {:url => 'http://myserver.com/test.exe' } }
