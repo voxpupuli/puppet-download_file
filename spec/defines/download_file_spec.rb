@@ -8,7 +8,7 @@ describe 'download_file', :type => :define do
 		let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp' } }
 		
 		it { should contain_exec('download-test.exe').with({
-                                                         'command' => "c:\\temp\\download.ps1",
+                                                         'command' => "c:\\temp\\download-test.ps1",
                                                          'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
                                                      })}
 	end
@@ -18,7 +18,7 @@ describe 'download_file', :type => :define do
 		let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp', :proxyAddress => 'test-proxy-01:8888' } }
 		
 		it { should contain_exec('download-test.exe').with({
-                                                         'command' => "c:\\temp\\download.ps1",
+                                                         'command' => "c:\\temp\\download-test.ps1",
                                                          'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
                                                      })}
 	end
@@ -36,4 +36,5 @@ describe 'download_file', :type => :define do
 		
 		it { expect { should contain_exec('download-test.exe')}.to raise_error(Puppet::Error, /Must pass url to Download_file/)}
     end
+
 end
