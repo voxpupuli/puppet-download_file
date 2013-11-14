@@ -16,5 +16,6 @@ define download_file ($url, $destination, $proxyAddress=undef) {
     provider  => powershell,
     onlyif    => "if(Test-Path -Path '${destination}\\${filename}') { exit 1 } else { exit 0 }",
     logoutput => true,
+    require   => File["download-${filename}.ps1"]
   }
 }
