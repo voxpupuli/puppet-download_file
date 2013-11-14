@@ -1,8 +1,8 @@
 $webclient = New-Object System.Net.WebClient
 $proxyAddress = '<%= @proxyAddress %>'
 if ($proxyAddress -ne '') {
-  if (!$proxyAddress.StartsWith('http://')) { 
-    $proxyAddress = 'http://' + $proxyAddress 
+  if (!$proxyAddress.StartsWith('http://')) {
+    $proxyAddress = 'http://' + $proxyAddress
   }
 
   $proxy = new-object System.Net.WebProxy
@@ -11,8 +11,8 @@ if ($proxyAddress -ne '') {
 }
 
 try {
-  $webclient.DownloadFile('<%= @url %>', '<%= @destination %>\\<%= @filename %>')
-} 
+  $webclient.DownloadFile('<%= @url %>', '<%= @destination %>\<%= @filename %>')
+}
 catch [Exception] {
   write-host $_.Exception.GetType().FullName
   write-host $_.Exception.Message
