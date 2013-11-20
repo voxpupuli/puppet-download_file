@@ -125,4 +125,24 @@ catch [Exception] {
                                                                     })}
   end
 
+  describe 'when the destination is a folder' do
+    let(:title)  {'Download nodejs installer'}
+    let(:params) { { :url => 'http://my.server/test.exe', :destination => 'c:\temp' } }
+    
+    it { should contain_exec('download-test.exe').with({
+                                                                       'command' => "c:\\temp\\download-test.ps1",
+                                                                       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
+                                                                    })}
+  end
+
+#  describe 'when the destination is a filename' do
+#    let(:title)  {'Download nodejs installer'}
+#    let(:params) { { :url => 'http://my.server/test.exe', :destination => 'c:\temp\test.exe' } }
+#    
+#    it { should contain_exec('download-test.exe').with({
+#                                                                       'command' => "c:\\temp\\download-test.ps1",
+#                                                                       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
+#                                                                    })}
+#  end
+
 end
