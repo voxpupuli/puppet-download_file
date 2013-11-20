@@ -11,6 +11,16 @@ describe 'download_file', :type => :define do
                                                      })}
   end
 
+  describe 'when downloading a file with a empty string proxy' do
+        let(:title)  {'Download DotNet 4.0'}
+    let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp', :proxyAddress => '' } }
+    
+    it { should contain_exec('download-test.exe').with({
+                                                         'command' => "c:\\temp\\download-test.ps1",
+                                                         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
+                                                     })}
+  end
+
   describe 'when downloading a file without a proxy we want to check that the erb gets evaluated correctly' do
     let(:title)  {'Download DotNet 4.0'}
     let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp' } }
@@ -81,18 +91,38 @@ catch [Exception] {
                 )}
 	end
 
-    describe 'when not passing a destination url to the download define' do
-		let(:title)  {'Download DotNet 4.0'}
-  		let(:params) { {:url => 'http://myserver.com/test.exe' } }
-		
-		it { expect { should contain_exec('download-test.exe')}.to raise_error(Puppet::Error, /Must pass destination to Download_file/)}
-    end
+  describe 'when not passing a destination url to the download define' do
+    let(:title)  {'Download DotNet 4.0'}
+		let(:params) { {:url => 'http://myserver.com/test.exe' } }
+	
+    it { expect { should contain_exec('download-test.exe')}.to raise_error(Puppet::Error, /Must pass destination to Download_file/)}
+  end
 
-    describe 'when not passing a URL to the file to download to the define' do
-		let(:title)  {'Download DotNet 4.0'}
-  		let(:params) { {:destination => 'c:\temp' } }
-		
-		it { expect { should contain_exec('download-test.exe')}.to raise_error(Puppet::Error, /Must pass url to Download_file/)}
-    end
+  describe 'when not passing a URL to the file to download to the define' do
+    let(:title)  {'Download DotNet 4.0'}
+		let(:params) { {:destination => 'c:\temp' } }
+	
+    it { expect { should contain_exec('download-test.exe')}.to raise_error(Puppet::Error, /Must pass url to Download_file/)}
+  end
+
+  describe 'when downloading a non-exe file' do
+    let(:title)  {'Download MSI'}
+    let(:params) { { :url => 'http://myserver.com/test.msi', :destination => 'c:\temp' } }
+    
+    it { should contain_exec('download-test.msi').with({
+                                                         'command' => "c:\\temp\\download-test.ps1",
+                                                         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.msi') { exit 1 } else { exit 0 }",
+                                                     })}
+  end
+
+  describe 'when downloading the nodejs installer' do
+    let(:title)  {'Download nodejs installer'}
+    let(:params) { { :url => 'http://artifactory.otsql.opentable.com:8081/artifactory/simple/puppet/windows/nodejs/0.10.15/nodejs-0.10.15-x64.msi', :destination => 'c:\temp' } }
+    
+    it { should contain_exec('download-nodejs-0.10.15-x64.msi').with({
+                                                                       'command' => "c:\\temp\\download-nodejs-0.10.15-x64.ps1",
+                                                                       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\nodejs-0.10.15-x64.msi') { exit 1 } else { exit 0 }",
+                                                                    })}
+  end
 
 end
