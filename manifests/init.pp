@@ -1,9 +1,9 @@
-define download_file ($url, $destination, $proxyAddress='') {
+define download_file ($url, $destination_directory, $proxyAddress='') {
   $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
 
   validate_re($url, '.+')
-  validate_re($destination, '.+')
+  validate_re($destination_directory, '.+')
   validate_re($filename, '.+')
 
   file { "download-${filename}.ps1" :
@@ -15,7 +15,7 @@ define download_file ($url, $destination, $proxyAddress='') {
   exec { "download-${filename}" :
     command   => "c:\\temp\\download-${powershell_filename}.ps1",
     provider  => powershell,
-    onlyif    => "if(Test-Path -Path '${destination}\\${filename}') { exit 1 } else { exit 0 }",
+    onlyif    => "if(Test-Path -Path '${destination_directory}\\${filename}') { exit 1 } else { exit 0 }",
     logoutput => true,
     require   => File["download-${filename}.ps1"],
   }

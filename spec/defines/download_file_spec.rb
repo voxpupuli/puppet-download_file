@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'download_file', :type => :define do
 	describe 'when downloading a file without a proxy' do
         let(:title)  {'Download DotNet 4.0'}
-		let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp' } }
+		let(:params) { { :url => 'http://myserver.com/test.exe', :destination_directory => 'c:\temp' } }
 		
 		it { should contain_exec('download-test.exe').with({
                                                          'command' => "c:\\temp\\download-test.ps1",
@@ -13,7 +13,7 @@ describe 'download_file', :type => :define do
 
   describe 'when downloading a file with a empty string proxy' do
         let(:title)  {'Download DotNet 4.0'}
-    let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp', :proxyAddress => '' } }
+    let(:params) { { :url => 'http://myserver.com/test.exe', :destination_directory => 'c:\temp', :proxyAddress => '' } }
     
     it { should contain_exec('download-test.exe').with({
                                                          'command' => "c:\\temp\\download-test.ps1",
@@ -23,7 +23,7 @@ describe 'download_file', :type => :define do
 
   describe 'when downloading a file without a proxy we want to check that the erb gets evaluated correctly' do
     let(:title)  {'Download DotNet 4.0'}
-    let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp' } }
+    let(:params) { { :url => 'http://myserver.com/test.exe', :destination_directory => 'c:\temp' } }
 
     it { should contain_file('download-test.exe.ps1').with_content(
                     "$webclient = New-Object System.Net.WebClient
@@ -53,7 +53,7 @@ catch [Exception] {
 
 	describe 'when downloading a file using a proxy server' do
         let(:title)  {'Download DotNet 4.0'}
-		let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp', :proxyAddress => 'test-proxy-01:8888' } }
+		let(:params) { { :url => 'http://myserver.com/test.exe', :destination_directory => 'c:\temp', :proxyAddress => 'test-proxy-01:8888' } }
 		
 		it { should contain_exec('download-test.exe').with({
                                                          'command' => "c:\\temp\\download-test.ps1",
@@ -63,7 +63,7 @@ catch [Exception] {
 
 	describe 'when downloading a file using a proxy server we want to check that the erb gets evaluated correctly' do
 		let(:title)  {'Download DotNet 4.0'}
-		let(:params) { { :url => 'http://myserver.com/test.exe', :destination => 'c:\temp', :proxyAddress => 'test-proxy-01:8888' } }
+		let(:params) { { :url => 'http://myserver.com/test.exe', :destination_directory => 'c:\temp', :proxyAddress => 'test-proxy-01:8888' } }
 
 		it { should contain_file('download-test.exe.ps1').with_content(
                     "$webclient = New-Object System.Net.WebClient
@@ -95,19 +95,19 @@ catch [Exception] {
     let(:title)  {'Download DotNet 4.0'}
 		let(:params) { {:url => 'http://myserver.com/test.exe' } }
 	
-    it { expect { should contain_exec('download-test.exe')}.to raise_error(Puppet::Error, /Must pass destination to Download_file/)}
+    it { expect { should contain_exec('download-test.exe')}.to raise_error(Puppet::Error, /Must pass destination_directory to Download_file/)}
   end
 
   describe 'when not passing a URL to the file to download to the define' do
     let(:title)  {'Download DotNet 4.0'}
-		let(:params) { {:destination => 'c:\temp' } }
+		let(:params) { {:destination_directory => 'c:\temp' } }
 	
     it { expect { should contain_exec('download-test.exe')}.to raise_error(Puppet::Error, /Must pass url to Download_file/)}
   end
 
   describe 'when downloading a non-exe file' do
     let(:title)  {'Download MSI'}
-    let(:params) { { :url => 'http://myserver.com/test.msi', :destination => 'c:\temp' } }
+    let(:params) { { :url => 'http://myserver.com/test.msi', :destination_directory => 'c:\temp' } }
     
     it { should contain_exec('download-test.msi').with({
                                                          'command' => "c:\\temp\\download-test.ps1",
@@ -117,7 +117,7 @@ catch [Exception] {
 
   describe 'when downloading the nodejs installer' do
     let(:title)  {'Download nodejs installer'}
-    let(:params) { { :url => 'http://artifactory.otsql.opentable.com:8081/artifactory/simple/puppet/windows/nodejs/0.10.15/nodejs-0.10.15-x64.msi', :destination => 'c:\temp' } }
+    let(:params) { { :url => 'http://artifactory.otsql.opentable.com:8081/artifactory/simple/puppet/windows/nodejs/0.10.15/nodejs-0.10.15-x64.msi', :destination_directory => 'c:\temp' } }
     
     it { should contain_exec('download-nodejs-0.10.15-x64.msi').with({
                                                                        'command' => "c:\\temp\\download-nodejs-0.10.15-x64.ps1",
@@ -127,7 +127,7 @@ catch [Exception] {
 
   describe 'when the destination is a folder' do
     let(:title)  {'Download nodejs installer'}
-    let(:params) { { :url => 'http://my.server/test.exe', :destination => 'c:\temp' } }
+    let(:params) { { :url => 'http://my.server/test.exe', :destination_directory => 'c:\temp' } }
     
     it { should contain_exec('download-test.exe').with({
                                                                        'command' => "c:\\temp\\download-test.ps1",

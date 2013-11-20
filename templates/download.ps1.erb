@@ -11,7 +11,7 @@ if ($proxyAddress -ne '') {
 }
 
 try {
-  $webclient.DownloadFile('<%= @url %>', '<%= @destination %>\<%= @filename %>')
+  $webclient.DownloadFile('<%= @url %>', '<%= @destination_directory %>\<%= @filename %>')
 }
 catch [Exception] {
   write-host $_.Exception.GetType().FullName
