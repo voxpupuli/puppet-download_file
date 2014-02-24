@@ -1,5 +1,5 @@
 name 'opentable-download_file'
-version '0.0.1'
+version '0.0.2'
 author 'opentable'
 license 'MIT'
 summary 'Module that will download files for use on Windows servers. Requires the server to have PowerShell 2.0 and above'
