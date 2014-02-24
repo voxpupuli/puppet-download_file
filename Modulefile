@@ -1,4 +1,4 @@
-name 'opentable-download_file'
+name 'opentable/download_file'
 version '0.0.2'
 author 'opentable'
 license 'MIT'
