@@ -5,11 +5,18 @@ define download_file ($url, $destination_directory, $proxyAddress='') {
   validate_re($url, '.+')
   validate_re($destination_directory, '.+')
   validate_re($filename, '.+')
+  
+  if ! defined(File['C:\temp']) {
+    file { 'C:\temp':
+      ensure => directory,
+    }
+  }
 
   file { "download-${filename}.ps1" :
     ensure  => present,
-    path    => "c:\\temp\\download-${powershell_filename}.ps1",
+    path    => "C:\\temp\\download-${powershell_filename}.ps1",
     content => template('download_file/download.ps1.erb'),
+    require => File['C:\temp']
   }
 
   exec { "download-${filename}" :
