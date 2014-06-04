@@ -1,3 +1,4 @@
+#
 define download_file ($url, $destination_directory, $proxyAddress='') {
   $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
@@ -5,7 +6,7 @@ define download_file ($url, $destination_directory, $proxyAddress='') {
   validate_re($url, '.+')
   validate_re($destination_directory, '.+')
   validate_re($filename, '.+')
-  
+
   if ! defined(File['C:\temp']) {
     file { 'C:\temp':
       ensure => directory,
