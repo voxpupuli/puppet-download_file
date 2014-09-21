@@ -1,6 +1,6 @@
 #
 define download_file ($url, $destination_directory, $proxyAddress='') {
-  $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
+  $filename = regsubst($url, '^(http|file).*\/([^\/]+)$', '\2')
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
 
   validate_re($url, '.+')
