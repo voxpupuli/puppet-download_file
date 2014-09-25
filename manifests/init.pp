@@ -1,3 +1,40 @@
+# Author::    Paul Stack  (mailto:pstack@opentable.com)
+# Copyright:: Copyright (c) 2013 OpenTable Inc
+# License::   MIT
+
+# == Define Resource Type: download_file
+#
+# Some description of what this does
+#
+# === Requirements/Dependencies
+#
+# Currently requires the modules puppetlabs/stdlib and puppetlabs/powershell on
+# the Puppet Forge in order to validate much of the the provided configuration.
+#
+# === Parameters
+#
+# [*url*] The http(s) destination of the file that you are looking to download
+#
+# [*destination_directory*] The full path to the directory on the system where the file will be downloaded to
+#
+# [*proxyAddress*] The optional http proxy address to use when downloading the file
+#
+# === Examples
+#
+# To download dotnet 4.0
+#
+#    download_file { "Download dotnet 4.0" :
+#      url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
+#      destination_directory => 'c:\temp'
+#    }
+#
+# To download dotnet 4.0 using a proxy
+#
+#    download_file { "Download dotnet 4.0" :
+#      url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
+#      destination_directory => 'c:\temp',
+#      proxyAddress          => 'http://corporateproxy.net:8080'
+#    }
 #
 define download_file ($url, $destination_directory, $proxyAddress='') {
   $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
