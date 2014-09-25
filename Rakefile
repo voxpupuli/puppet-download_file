@@ -19,7 +19,7 @@ PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 
 Rake::Task[:lint].clear
 PuppetLint::RakeTask.new :lint do |config|
-  config.ignore_paths = ["spec/**/*.pp", "vendor/**/*.pp"]
+  config.ignore_paths = ["**/spec/**/*.pp", "**/vendor/**/*.pp"]
   config.log_format = '%{path}:%{linenumber}:%{KIND}: %{message}'
 end
 
