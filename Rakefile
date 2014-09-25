@@ -17,13 +17,18 @@ PuppetLint.configuration.send('disable_class_parameter_defaults')
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 
+Rake::Task[:lint].clear
+PuppetLint::RakeTask.new :lint do |config|
+  config.ignore_paths = ["spec/**/*.pp", "vendor/**/*.pp"]
+  config.log_format = '%{path}:%{linenumber}:%{KIND}: %{message}'
+end
+
 exclude_paths = [
   "**/pkg/**/*.{pp,erb}",
   "**/vendor/**/*.{pp,erb}",
   "**/spec/**/*.{pp,erb}"
 ]
 
-PuppetLint.configuration.ignore_paths = exclude_paths
 PuppetSyntax.exclude_paths = exclude_paths
 
 desc "Run syntax, lint, and spec tests."
