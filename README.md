@@ -4,7 +4,7 @@
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with [Modulename]](#setup)
+3. [Setup - The basics of getting started with download_file](#setup)
     * [What download_file affects](#what-download_file-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with download_file](#beginning-with-download_file)
