@@ -50,14 +50,14 @@ define download_file ($url, $destination_directory, $proxyAddress='') {
     }
   }
 
-  file { "download-${filename}.ps1" :
+  file { "download-${filename}.ps1":
     ensure  => present,
     path    => "C:\\temp\\download-${powershell_filename}.ps1",
     content => template('download_file/download.ps1.erb'),
     require => File['C:\temp']
   }
 
-  exec { "download-${filename}" :
+  exec { "download-${filename}":
     command   => "c:\\temp\\download-${powershell_filename}.ps1",
     provider  => powershell,
     onlyif    => "if(Test-Path -Path '${destination_directory}\\${filename}') { exit 1 } else { exit 0 }",
