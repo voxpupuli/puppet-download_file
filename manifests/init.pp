@@ -4,7 +4,7 @@
 
 # == Define Resource Type: download_file
 #
-# Some description of what this does
+# The download_file module allows you to download files on Windows
 #
 # === Requirements/Dependencies
 #
