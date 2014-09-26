@@ -46,7 +46,7 @@ define download_file ($url, $destination_directory, $proxyAddress='') {
 
   if ! defined(File['C:\temp']) {
     file { 'C:\temp':
-      ensure => directory,
+      ensure => directory
     }
   }
 
