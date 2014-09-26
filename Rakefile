@@ -16,7 +16,7 @@ PuppetLint::RakeTask.new :lint do |config|
   config.log_format = '%{path}:%{linenumber}:%{KIND}: %{message}'
 end
 
-PuppetSyntax.exclude_paths = ["**/spec/**/*", "**/vendor/**/*]
+PuppetSyntax.exclude_paths = ["**/spec/**/*", "**/vendor/**/*"]
 
 desc "Run syntax, lint, and spec tests."
 task :test => [
