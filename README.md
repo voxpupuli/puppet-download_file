@@ -35,18 +35,22 @@ It is only supported on Windows.
 
 To download dotnet 4.0
 
+```puppet
     download_file { "Download dotnet 4.0" :
       url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
       destination_directory => 'c:\temp'
     }
+```
 
 To download dotnet 4.0 using a proxy
 
+```puppet
     download_file { "Download dotnet 4.0" :
       url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
       destination_directory => 'c:\temp',
       proxyAddress          => 'http://corporateproxy.net:8080'
     }
+```
 
 The proxy will be used as part of the download using PowerShell. This does not set a system wide proxy
 
