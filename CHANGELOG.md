@@ -1,3 +1,12 @@
+##2014-10-17 - Release 1.1.1
+###Summary
+
+This releases fixes a bug where duplicate resources can occur
+
+####Bugfixes
+
+- fixes (#10) where C:\Temp and C:/Temp throws duplicate resource error 
+
 ##2014-10-17 - Release 1.1.0
 ###Summary
 
