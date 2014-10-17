@@ -67,6 +67,9 @@ The http(s) destination of the file that you are looking to download
 #####`destination_directory`
 The full path to the directory on the system where the file will be downloaded to
 
+#####`destination_file`
+The optional name of the file to download onto the system.
+
 #####`proxyAddress`
 The optional http proxy address to use when downloading the file
 

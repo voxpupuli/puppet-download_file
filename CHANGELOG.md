@@ -1,3 +1,12 @@
+##2014-10-17 - Release 1.1.0
+###Summary
+
+This release adds support to provide the file location
+
+####Features
+
+- Adds new parameter `destination_file` to provide the name of the file to download onto the system.
+
 ##2014-10-10 - Release 1.0.0
 ###Summary
 

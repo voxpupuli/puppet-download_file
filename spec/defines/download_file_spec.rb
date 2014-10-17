@@ -173,4 +173,18 @@ describe 'download_file', :type => :define do
     })}
   end
 
+  describe 'when the filename is different to the filename in the url' do
+    let(:title)  { 'Download nodejs installer' }
+    let(:params) {{
+      :url => 'http://my.server/test.exe',
+      :destination_directory => 'c:\temp',
+      :destination_file => 'foo.exe'
+    }}
+
+    it { should contain_exec('download-foo.exe').with({
+      'command' => "c:\\temp\\download-test.ps1",
+      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\foo.exe') { exit 1 } else { exit 0 }",
+    })}
+  end
+
 end

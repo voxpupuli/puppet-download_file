@@ -1,6 +1,6 @@
 {
   "name": "opentable-download_file",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Paul Stack <pstack@opentable.com>",
   "license": "MIT",
   "summary": "A module that will download files for use on Windows servers. Requires the server to have PowerShell 2.0 and above",

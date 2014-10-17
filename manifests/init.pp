@@ -19,6 +19,9 @@
 # [*destination_directory*]
 # The full path to the directory on the system where the file will be downloaded to
 #
+# [*destination_file*]
+# The optional name of the file to download onto the system.
+#
 # [*proxyAddress*]
 # The optional http proxy address to use when downloading the file
 #
@@ -39,8 +42,19 @@
 #      proxyAddress          => 'http://corporateproxy.net:8080'
 #    }
 #
-define download_file ($url, $destination_directory, $proxyAddress='') {
-  $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
+define download_file(
+  $url,
+  $destination_directory,
+  $destination_file = '',
+  $proxyAddress=''
+) {
+
+  if "x${destination_file}x" == 'xx' {
+    $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
+  } else {
+    $filename = $destination_file
+  }
+
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
 
   validate_re($url, '.+')
