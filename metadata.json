@@ -5,7 +5,7 @@
   "license": "MIT",
   "summary": "A module that will download files for use on Windows servers. Requires the server to have PowerShell 2.0 and above",
   "source": "https://github.com/opentable/puppet-download_file",
-  "project_page": "(https://forge.puppetlabs.com/opentable/download_file)",
+  "project_page": "https://forge.puppetlabs.com/opentable/download_file",
   "issues_url": "https://github.com/opentable/puppet-download_file/issues",
   "tags": ["windows", "utility"],
   "operatingsystem_support": [
