@@ -1,7 +1,12 @@
 $webclient = New-Object System.Net.WebClient
 $proxyAddress = '<%= @proxyAddress %>'
 $proxyUser = '<% @proxyUser %>'
+
+<% if @isPasswordSecure %>
 $proxyPassword = '<% @proxyPassword %>'
+<% else %>
+$proxyPassword = ConvertFrom-SecureString -string $(ConvertTo-SecureString "<% @proxyPassword %>" -AsPlainText -Force)
+<% end %>
 
 if ($proxyAddress -ne '') {
   if (!$proxyAddress.StartsWith('http://')) {
