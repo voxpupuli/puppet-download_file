@@ -37,17 +37,17 @@ describe 'download_file', :type => :define do
       $proxyAddress = ''
       $proxyUser = ''
       $proxyPassword = ''
-      if ('' -ne '') - {
-        $proxyPassword = ConvertFrom-SecureString -string $(ConvertTo-SecureString "" -AsPlainText -Force)
-      }
-      else {
-        $proxyPassword = ''
-      }
+      
+      
+      $proxyPassword = ''
+      
+      
       
       if ($proxyAddress -ne '') {
         if (!$proxyAddress.StartsWith('http://')) {
           $proxyAddress = 'http://' + $proxyAddress
         }
+        
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
         if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
@@ -57,8 +57,9 @@ describe 'download_file', :type => :define do
         }
         $webclient.proxy = $proxy
       }
+      
       try {
-        $webclient.DownloadFile('<%= @url %>', '<%= @destination_directory %>\<%= @filename %>')
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\temp\test.exe')
       }
       catch [Exception] {
         write-host $_.Exception.GetType().FullName
@@ -98,12 +99,11 @@ describe 'download_file', :type => :define do
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = ''
       $proxyPassword = ''
-      if ('' -ne '') - {
-        $proxyPassword = ConvertFrom-SecureString -string $(ConvertTo-SecureString "" -AsPlainText -Force)
-      }
-      else {
-        $proxyPassword = ''
-      }
+      
+      
+      $proxyPassword = ''
+      
+      
       
       if ($proxyAddress -ne '') {
         if (!$proxyAddress.StartsWith('http://')) {
@@ -119,7 +119,146 @@ describe 'download_file', :type => :define do
         $webclient.proxy = $proxy
       }
       try {
-        $webclient.DownloadFile('<%= @url %>', '<%= @destination_directory %>\<%= @filename %>')
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\temp\test.exe')
+      }
+      catch [Exception] {
+        write-host $_.Exception.GetType().FullName
+        write-host $_.Exception.Message
+        write-host $_.Exception.InnerException.Message
+        throw $_.Exception
+      }
+    PS1
+
+    it { should contain_file('download-test.exe.ps1').with_content(ps1) }
+	end
+
+  describe 'when downloading a file using a proxy server with credentials' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) {{
+      :url => 'http://myserver.com/test.exe',
+      :destination_directory => 'c:\temp',
+      :proxyAddress => 'test-proxy-01:8888',
+      :proxyUser => 'test-user',
+      :proxyPassword => 'test-secure'
+    }}
+
+    it { should contain_exec('download-test.exe').with({
+      'command' => "c:\\temp\\download-test.ps1",
+      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
+    })}
+  end
+
+  describe 'when downloading a file using a proxy server with secure credentials we want to check that the erb gets evaluated correctly' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) {{
+      :url => 'http://myserver.com/test.exe',
+      :destination_directory => 'c:\temp',
+      :proxyAddress => 'test-proxy-01:8888',
+      :proxyUser => 'test-user',
+      :proxyPassword => 'test-secure'
+    }}
+
+    ps1 = <<-PS1.gsub(/^ {6}/, '')
+      $webclient = New-Object System.Net.WebClient
+      $proxyAddress = 'test-proxy-01:8888'
+      $proxyUser = 'test-user'
+      $proxyPassword = 'test-secure'
+      
+      
+      $proxyPassword = 'test-secure'
+      
+      
+      
+      if ($proxyAddress -ne '') {
+        if (!$proxyAddress.StartsWith('http://')) {
+          $proxyAddress = 'http://' + $proxyAddress
+        }
+        
+        $proxy = new-object System.Net.WebProxy
+        $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+          $password = ConvertTo-SecureString -string $proxyPassword
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
+        $webclient.proxy = $proxy
+      }
+      
+      try {
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\temp\test.exe')
+      }
+      catch [Exception] {
+        write-host $_.Exception.GetType().FullName
+        write-host $_.Exception.Message
+        write-host $_.Exception.InnerException.Message
+        throw $_.Exception
+      }
+    PS1
+
+    it { should contain_file('download-test.exe.ps1').with_content(ps1) }
+	end
+
+  describe 'when downloading a file using a proxy server with insecure credentials' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) {{
+      :url => 'http://myserver.com/test.exe',
+      :destination_directory => 'c:\temp',
+      :proxyAddress => 'test-proxy-01:8888',
+      :proxyUser => 'test-user',
+      :proxyPassword => 'test',
+      :isPasswordSecure => false
+    }}
+
+    it { should contain_exec('download-test.exe').with({
+      'command' => "c:\\temp\\download-test.ps1",
+      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
+    })}
+  end
+
+  describe 'when downloading a file using a proxy server with secure credentials we want to check that the erb gets evaluated correctly' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) {{
+      :url => 'http://myserver.com/test.exe',
+      :destination_directory => 'c:\temp',
+      :proxyAddress => 'test-proxy-01:8888',
+      :proxyUser => 'test-user',
+      :proxyPassword => 'test'
+      :isPasswordSecure => false
+    }}
+
+    ps1 = <<-PS1.gsub(/^ {6}/, '')
+      $webclient = New-Object System.Net.WebClient
+      $proxyAddress = 'test-proxy-01:8888'
+      $proxyUser = 'test-user'
+      $proxyPassword = 'test-secure'
+      
+      
+      
+      if ('test' -ne '') - {
+        $proxyPassword = ConvertFrom-SecureString -securestring $(ConvertTo-SecureString "test" -AsPlainText -Force)
+      }
+      else {
+        $proxyPassword = ''
+      }
+      
+      
+      if ($proxyAddress -ne '') {
+        if (!$proxyAddress.StartsWith('http://')) {
+          $proxyAddress = 'http://' + $proxyAddress
+        }
+        
+        $proxy = new-object System.Net.WebProxy
+        $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+          $password = ConvertTo-SecureString -string $proxyPassword
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
+        $webclient.proxy = $proxy
+      }
+      
+      try {
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\temp\test.exe')
       }
       catch [Exception] {
         write-host $_.Exception.GetType().FullName
