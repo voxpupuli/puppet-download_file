@@ -5,7 +5,12 @@ $proxyUser = '<% @proxyUser %>'
 <% if @isPasswordSecure %>
 $proxyPassword = '<% @proxyPassword %>'
 <% else %>
-$proxyPassword = ConvertFrom-SecureString -string $(ConvertTo-SecureString "<% @proxyPassword %>" -AsPlainText -Force)
+if ('<% @proxyPassword %>' -ne '') - {
+  $proxyPassword = ConvertFrom-SecureString -string $(ConvertTo-SecureString "<% @proxyPassword %>" -AsPlainText -Force)
+}
+else {
+  $proxyPassword = ''
+}
 <% end %>
 
 if ($proxyAddress -ne '') {
