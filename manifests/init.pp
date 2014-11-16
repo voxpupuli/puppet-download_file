@@ -52,6 +52,9 @@ define download_file(
   $destination_file = '',
   $proxyAddress=undef,
   $proxy_address=undef,
+  $proxyUser='',
+  $proxyPassword='',
+  $isPasswordSecure=true,
   $timeout = undef
 ) {
 

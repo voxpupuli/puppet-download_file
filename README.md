@@ -73,6 +73,34 @@ The optional name of the file to download onto the system.
 #####`proxy_address`
 The optional http proxy address to use when downloading the file
 
+#####`proxyUser`
+The optional http proxy user to use when downloading the file. `proxyAddress` and `proxyPassword`
+must be specified or this has no effect.
+
+#####`proxyPassword`
+The optional http proxy password to use when downloading the file. `proxyAddress` and `proxyUser`
+must be specified or this has no effect. By default this value accepts secure strings. A secure
+string is (unfortunately) tied to the machine that it is ued for. To generate a secure string for
+a given machine, users should run the following powershell command on that machine (replacing
+PASSWORD with the desired password):
+
+```Powershell
+ConvertFrom-SecureString -securestring $(ConvertTo-SecureString "PASSWORD" -AsPlainText -Force)
+```
+
+It is possible to get this information then clear the command from history, but it's important to
+note that the -Force argument is there to suppress warnings that the plaintext password is in
+the history.
+
+If this process sounds unappealing, you can send the password in plaintext (which sits in the
+download-<filename>.ps1 file on the machine being provisioned) by changing the `isPasswordSecure`
+variable to `false`.
+
+#####`isPasswordSecure`
+The optional switch to change the way that `proxyPassword` is interpreted from secure string to
+plaintext. This will send the password in plaintext to the machine being provisioned, which may
+be a security concern.
+
 ##Reference
 
 ###Defined Types
@@ -87,6 +115,8 @@ This module is tested on the following platforms:
 * Windows 2008 R2
 * Windows 2012
 * Windows 2012 R2
+* Windows 7
+* Windows 8
 
 It is tested with the OSS version of Puppet only.
 
