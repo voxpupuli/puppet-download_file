@@ -46,7 +46,10 @@ define download_file(
   $url,
   $destination_directory,
   $destination_file = '',
-  $proxyAddress=''
+  $proxyAddress='',
+  $proxyUser='',
+  $proxyPassword='',
+  $isPasswordSecure=true
 ) {
 
   if "x${destination_file}x" == 'xx' {
