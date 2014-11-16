@@ -35,18 +35,30 @@ describe 'download_file', :type => :define do
     ps1 = <<-PS1.gsub(/^ {6}/, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = ''
+      $proxyUser = ''
+      $proxyPassword = ''
+      if ('' -ne '') - {
+        $proxyPassword = ConvertFrom-SecureString -string $(ConvertTo-SecureString "" -AsPlainText -Force)
+      }
+      else {
+        $proxyPassword = ''
+      }
+      
       if ($proxyAddress -ne '') {
         if (!$proxyAddress.StartsWith('http://')) {
           $proxyAddress = 'http://' + $proxyAddress
         }
-
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+          $password = ConvertTo-SecureString -string $proxyPassword
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
         $webclient.proxy = $proxy
       }
-
       try {
-        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
+        $webclient.DownloadFile('<%= @url %>', '<%= @destination_directory %>\<%= @filename %>')
       }
       catch [Exception] {
         write-host $_.Exception.GetType().FullName
@@ -59,7 +71,7 @@ describe 'download_file', :type => :define do
     it { should contain_file('download-test.exe.ps1').with_content(ps1) }
   end
 
-  describe 'when downloading a file using a proxy server' do
+  describe 'when downloading a file using a proxy server without credentials' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
@@ -73,7 +85,7 @@ describe 'download_file', :type => :define do
     })}
   end
 
-  describe 'when downloading a file using a proxy server we want to check that the erb gets evaluated correctly' do
+  describe 'when downloading a file using a proxy server without credentials we want to check that the erb gets evaluated correctly' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
@@ -84,18 +96,30 @@ describe 'download_file', :type => :define do
     ps1 = <<-PS1.gsub(/^ {6}/, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
+      $proxyUser = ''
+      $proxyPassword = ''
+      if ('' -ne '') - {
+        $proxyPassword = ConvertFrom-SecureString -string $(ConvertTo-SecureString "" -AsPlainText -Force)
+      }
+      else {
+        $proxyPassword = ''
+      }
+      
       if ($proxyAddress -ne '') {
         if (!$proxyAddress.StartsWith('http://')) {
           $proxyAddress = 'http://' + $proxyAddress
         }
-
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+          $password = ConvertTo-SecureString -string $proxyPassword
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
         $webclient.proxy = $proxy
       }
-
       try {
-        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
+        $webclient.DownloadFile('<%= @url %>', '<%= @destination_directory %>\<%= @filename %>')
       }
       catch [Exception] {
         write-host $_.Exception.GetType().FullName
