@@ -222,7 +222,7 @@ describe 'download_file', :type => :define do
       :destination_directory => 'c:\temp',
       :proxyAddress => 'test-proxy-01:8888',
       :proxyUser => 'test-user',
-      :proxyPassword => 'test'
+      :proxyPassword => 'test',
       :isPasswordSecure => false
     }}
 
