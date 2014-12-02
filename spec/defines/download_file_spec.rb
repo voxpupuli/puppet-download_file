@@ -36,26 +36,27 @@ describe 'download_file', :type => :define do
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = ''
       $proxyUser = ''
-      
-      
       $proxyPassword = ''
-      
-      
+
       if ($proxyAddress -ne '') {
-        if (!$proxyAddress.StartsWith('http://')) {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
         }
-      
+
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
         if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
           $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
           $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
           $webclient.UseDefaultCredentials = $true
         }
         $webclient.proxy = $proxy
       }
-      
+
       try {
         $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
       }
@@ -96,26 +97,27 @@ describe 'download_file', :type => :define do
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = ''
-      
-      
       $proxyPassword = ''
-      
-      
+
       if ($proxyAddress -ne '') {
-        if (!$proxyAddress.StartsWith('http://')) {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
         }
-      
+
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
         if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
           $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
           $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
           $webclient.UseDefaultCredentials = $true
         }
         $webclient.proxy = $proxy
       }
-      
+
       try {
         $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
       }
@@ -139,7 +141,6 @@ describe 'download_file', :type => :define do
       :proxyUser => 'test-user',
       :proxyPassword => 'test-secure'
     }}
-
     it { should contain_exec('download-test.exe').with({
       'command' => "c:\\temp\\download-test.ps1",
       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
@@ -160,26 +161,27 @@ describe 'download_file', :type => :define do
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
-      
-      
       $proxyPassword = 'test-secure'
-      
-      
+
       if ($proxyAddress -ne '') {
-        if (!$proxyAddress.StartsWith('http://')) {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
         }
-      
+
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
         if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
           $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
           $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
           $webclient.UseDefaultCredentials = $true
         }
         $webclient.proxy = $proxy
       }
-      
+
       try {
         $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
       }
@@ -226,31 +228,27 @@ describe 'download_file', :type => :define do
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
-      
-      
-      if ('test' -ne '') - {
-        $proxyPassword = ConvertFrom-SecureString -securestring $(ConvertTo-SecureString "test" -AsPlainText -Force)
-      }
-      else {
-        $proxyPassword = ''
-      }
-      
-      
+      $proxyPassword = 'test'
+
       if ($proxyAddress -ne '') {
-        if (!$proxyAddress.StartsWith('http://')) {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
         }
-      
+
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
         if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
-          $password = ConvertTo-SecureString -string $proxyPassword
+        
+          
+          $password = ConvertTo-SecureString "$proxyPassword" -AsPlainText -Force
+          
+          
           $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
           $webclient.UseDefaultCredentials = $true
         }
         $webclient.proxy = $proxy
       }
-      
+
       try {
         $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
       }
