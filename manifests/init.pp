@@ -81,7 +81,7 @@ define download_file(
   }
 
   exec { "download-${filename}":
-    command   => "${destination_directory}\\download-${powershell_filename}.ps1",
+    command   => "& '${destination_directory}\\download-${powershell_filename}.ps1'",
     provider  => powershell,
     onlyif    => "if(Test-Path -Path '${destination_directory}\\${filename}') { exit 1 } else { exit 0 }",
     logoutput => true,
