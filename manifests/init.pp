@@ -51,13 +51,18 @@ define download_file(
   $destination_directory,
   $destination_file = '',
   $proxyAddress='',
-  $timeout = 1800
+  $timeout = undef
 ) {
 
   if "x${destination_file}x" == 'xx' {
     $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
   } else {
     $filename = $destination_file
+  }
+
+  if $timeout {
+    validate_integer($timeout)
+    Exec { timeout => $timeout }
   }
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
@@ -84,7 +89,6 @@ define download_file(
     provider  => powershell,
     onlyif    => "if(Test-Path -Path '${destination_directory}\\${filename}') { exit 1 } else { exit 0 }",
     logoutput => true,
-    timeout => $timeout,
     require   => File["download-${filename}.ps1"]
   }
 }
