@@ -187,4 +187,46 @@ describe 'download_file', :type => :define do
     })}
   end
 
+  describe 'the timeout parameter' do
+
+    context 'when not specified' do
+      let(:title)  { 'Download nodejs installer' }
+      let(:params) {{
+        :url => 'http://my.server/test.exe',
+        :destination_directory => 'c:\temp',
+        :destination_file => 'foo.exe'
+      }}
+      it { should contain_exec('download-foo.exe').with({
+        'timeout' => nil
+      })}
+    end
+
+    context 'when given an integer value' do
+      let(:title)  { 'Download nodejs installer' }
+      let(:params) {{
+        :url => 'http://my.server/test.exe',
+        :destination_directory => 'c:\temp',
+        :destination_file => 'foo.exe',
+        :timeout => '30000'
+      }}
+      it { should contain_exec('download-foo.exe').with({
+        'timeout' => '30000'
+      })}
+    end
+
+    context 'when given a non-integer value' do
+      let(:title)  { 'Download nodejs installer' }
+      let(:params) {{
+        :url => 'http://my.server/test.exe',
+        :destination_directory => 'c:\temp',
+        :destination_file => 'foo.exe',
+        :timeout => 'this-cannot-work'
+      }}
+      it {
+        expect {
+          should contain_exec('download-foo.exe')
+        }.to raise_error(Puppet::Error, /Integer/)
+      }
+    end
+  end
 end
