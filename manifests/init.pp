@@ -71,21 +71,27 @@ define download_file(
   validate_re($destination_directory, '.+')
   validate_re($filename, '.+')
 
-  if ! defined(File['C:\temp']) {
-    file { 'C:\temp':
+  if defined(File['C:\temp']) {
+    $tmp_dir = 'C:\temp'
+  } elsif defined(File['C:/temp']) {
+    $tmp_dir = 'C:/temp'
+  } else {
+    $tmp_dir = 'C:\temp'
+
+    file { $tmp_dir:
       ensure => directory
     }
   }
 
   file { "download-${filename}.ps1":
     ensure  => present,
-    path    => "C:\\temp\\download-${powershell_filename}.ps1",
+    path    => "${destination_directory}\\download-${powershell_filename}.ps1",
     content => template('download_file/download.ps1.erb'),
-    require => File['C:\temp']
+    require => File[$tmp_dir]
   }
 
   exec { "download-${filename}":
-    command   => "c:\\temp\\download-${powershell_filename}.ps1",
+    command   => "${destination_directory}\\download-${powershell_filename}.ps1",
     provider  => powershell,
     onlyif    => "if(Test-Path -Path '${destination_directory}\\${filename}') { exit 1 } else { exit 0 }",
     logoutput => true,
