@@ -7,11 +7,11 @@
 3. [Setup - The basics of getting started with download_file](#setup)
     * [What download_file affects](#what-download_file-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with download_file](#beginning-with-download_file)
+    * [Beginning with download_file](#beginning)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+6. [Development - Guide for contributing to the module](#contributing)
 
 ##Overview
 The download_file module allows you to download files on Windows
@@ -80,7 +80,7 @@ must be specified or this has no effect.
 #####`proxy_password`
 The optional http proxy password to use when downloading the file. `proxy_address` and `proxy_user`
 must be specified or this has no effect. By default this value accepts secure strings. A secure
-string is (unfortunately) tied to the machine that it is ued for. To generate a secure string for
+string is (unfortunately) tied to the machine that it is used for. To generate a secure string for
 a given machine, users should run the following powershell command on that machine (replacing
 PASSWORD with the desired password):
 
@@ -105,7 +105,7 @@ be a security concern.
 
 ###Defined Types
 ####Public Types
-* [`download_file`](#defined-download_file): Download a give file
+* [`download_file`](#defined-type-download_file): Download a give file
 
 ##Limitations
 
