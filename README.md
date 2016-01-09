@@ -73,12 +73,12 @@ The optional name of the file to download onto the system.
 #####`proxy_address`
 The optional http proxy address to use when downloading the file
 
-#####`proxyUser`
-The optional http proxy user to use when downloading the file. `proxyAddress` and `proxyPassword`
+#####`proxy_user`
+The optional http proxy user to use when downloading the file. `proxy_address` and `proxy_password`
 must be specified or this has no effect.
 
-#####`proxyPassword`
-The optional http proxy password to use when downloading the file. `proxyAddress` and `proxyUser`
+#####`proxy_password`
+The optional http proxy password to use when downloading the file. `proxy_address` and `proxy_user`
 must be specified or this has no effect. By default this value accepts secure strings. A secure
 string is (unfortunately) tied to the machine that it is ued for. To generate a secure string for
 a given machine, users should run the following powershell command on that machine (replacing
@@ -93,10 +93,10 @@ note that the -Force argument is there to suppress warnings that the plaintext p
 the history.
 
 If this process sounds unappealing, you can send the password in plaintext (which sits in the
-download-<filename>.ps1 file on the machine being provisioned) by changing the `isPasswordSecure`
+download-<filename>.ps1 file on the machine being provisioned) by changing the `is_password_secure`
 variable to `false`.
 
-#####`isPasswordSecure`
+#####`is_password_secure`
 The optional switch to change the way that `proxyPassword` is interpreted from secure string to
 plaintext. This will send the password in plaintext to the machine being provisioned, which may
 be a security concern.

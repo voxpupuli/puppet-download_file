@@ -137,9 +137,9 @@ describe 'download_file', :type => :define do
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
       :destination_directory => 'c:\temp',
-      :proxyAddress => 'test-proxy-01:8888',
-      :proxyUser => 'test-user',
-      :proxyPassword => 'test-secure'
+      :proxy_address => 'test-proxy-01:8888',
+      :proxy_user => 'test-user',
+      :proxy_password => 'test-secure'
     }}
     it { should contain_exec('download-test.exe').with({
       'command' => "c:\\temp\\download-test.ps1",
@@ -152,9 +152,9 @@ describe 'download_file', :type => :define do
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
       :destination_directory => 'c:\temp',
-      :proxyAddress => 'test-proxy-01:8888',
-      :proxyUser => 'test-user',
-      :proxyPassword => 'test-secure'
+      :proxy_address => 'test-proxy-01:8888',
+      :proxy_user => 'test-user',
+      :proxy_password => 'test-secure'
     }}
 
     ps1 = <<-PS1.gsub(/^ {6}/, '')
@@ -201,10 +201,10 @@ describe 'download_file', :type => :define do
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
       :destination_directory => 'c:\temp',
-      :proxyAddress => 'test-proxy-01:8888',
-      :proxyUser => 'test-user',
-      :proxyPassword => 'test',
-      :isPasswordSecure => false
+      :proxy_address => 'test-proxy-01:8888',
+      :proxy_user => 'test-user',
+      :proxy_password => 'test',
+      :is_password_secure => false
     }}
 
     it { should contain_exec('download-test.exe').with({
@@ -218,10 +218,10 @@ describe 'download_file', :type => :define do
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
       :destination_directory => 'c:\temp',
-      :proxyAddress => 'test-proxy-01:8888',
-      :proxyUser => 'test-user',
-      :proxyPassword => 'test',
-      :isPasswordSecure => false
+      :proxy_address => 'test-proxy-01:8888',
+      :proxy_user => 'test-user',
+      :proxy_password => 'test',
+      :is_password_secure => false
     }}
 
     ps1 = <<-PS1.gsub(/^ {6}/, '')
@@ -388,13 +388,13 @@ describe 'download_file', :type => :define do
   describe 'the proxyAddress parameter' do
     let(:title)  { 'Download nodejs installer' }
     let(:params) {{
-        :url => 'http://my.server/test.exe',
-        :destination_directory => 'c:\temp',
-        :destination_file => 'foo.exe',
-        :proxyAddress => 'http://localhost:9090'
+      :url => 'http://my.server/test.exe',
+      :destination_directory => 'c:\temp',
+      :destination_file => 'foo.exe',
+      :proxyAddress => 'http://localhost:9090'
     }}
 
-    describe 'is still supported' do
+    describe 'is supported' do
       it {
         expect { should contain_exec('download-foo.exe') }.to_not raise_error
       }

@@ -1,7 +1,7 @@
 $webclient = New-Object System.Net.WebClient
 $proxyAddress = '<%= @proxy_address_real %>'
-$proxyUser = '<%= @proxyUser %>'
-$proxyPassword = '<%= @proxyPassword %>'
+$proxyUser = '<%= @proxy_user %>'
+$proxyPassword = '<%= @proxy_password %>'
 
 if ($proxyAddress -ne '') {
   if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -12,7 +12,7 @@ if ($proxyAddress -ne '') {
   $proxy.Address = $proxyAddress
   if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
   
-    <% if @isPasswordSecure %>
+    <% if @is_password_secure %>
     $password = ConvertTo-SecureString -string $proxyPassword
     <% else %>
     $password = ConvertTo-SecureString "$proxyPassword" -AsPlainText -Force
