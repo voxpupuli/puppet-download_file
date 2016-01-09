@@ -25,6 +25,9 @@
 # [*proxyAddress*]
 # The optional http proxy address to use when downloading the file
 #
+# [*timeout*]
+# The optional timeout(in seconds) in case you expect to download big and slow file
+#
 # === Examples
 #
 # To download dotnet 4.0
@@ -34,25 +37,32 @@
 #      destination_directory => 'c:\temp'
 #    }
 #
-# To download dotnet 4.0 using a proxy
+# To download dotnet 4.0 using a proxy and extend operation timeout to 30000 seconds 
 #
 #    download_file { "Download dotnet 4.0" :
 #      url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
 #      destination_directory => 'c:\temp',
-#      proxyAddress          => 'http://corporateproxy.net:8080'
+#      proxyAddress          => 'http://corporateproxy.net:8080',
+#      timeout               => 30000
 #    }
 #
 define download_file(
   $url,
   $destination_directory,
   $destination_file = '',
-  $proxyAddress=''
+  $proxyAddress='',
+  $timeout = undef
 ) {
 
   if "x${destination_file}x" == 'xx' {
     $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
   } else {
     $filename = $destination_file
+  }
+
+  if $timeout {
+    validate_integer($timeout)
+    Exec { timeout => $timeout }
   }
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
