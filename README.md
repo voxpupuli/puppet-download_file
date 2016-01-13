@@ -31,7 +31,7 @@ It is only supported on Windows.
 ###Setup Requirements
 * download_file makes use of Powershell so you will need to have at least version 2.0 installed in order to use this module.
 
-##Begining
+##Beginning
 
 To download dotnet 4.0
 
@@ -48,7 +48,7 @@ To download dotnet 4.0 using a proxy
     download_file { "Download dotnet 4.0" :
       url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
       destination_directory => 'c:\temp',
-      proxyAddress          => 'http://corporateproxy.net:8080'
+      proxy_address         => 'http://corporateproxy.net:8080'
     }
 ```
 
@@ -70,7 +70,7 @@ The full path to the directory on the system where the file will be downloaded t
 #####`destination_file`
 The optional name of the file to download onto the system.
 
-#####`proxyAddress`
+#####`proxy_address`
 The optional http proxy address to use when downloading the file
 
 ##Reference
@@ -92,4 +92,4 @@ It is tested with the OSS version of Puppet only.
 
 ###Contributing
 
-Please read CONTRIBUTING.md for full details on contributing to this project.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for full details on contributing to this project.

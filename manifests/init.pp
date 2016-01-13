@@ -22,7 +22,7 @@
 # [*destination_file*]
 # The optional name of the file to download onto the system.
 #
-# [*proxyAddress*]
+# [*proxy_address*]
 # The optional http proxy address to use when downloading the file
 #
 # [*timeout*]
@@ -42,7 +42,7 @@
 #    download_file { "Download dotnet 4.0" :
 #      url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
 #      destination_directory => 'c:\temp',
-#      proxyAddress          => 'http://corporateproxy.net:8080',
+#      proxy_address         => 'http://corporateproxy.net:8080',
 #      timeout               => 30000
 #    }
 #
@@ -50,7 +50,8 @@ define download_file(
   $url,
   $destination_directory,
   $destination_file = '',
-  $proxyAddress='',
+  $proxyAddress=undef,
+  $proxy_address=undef,
   $timeout = undef
 ) {
 
@@ -66,6 +67,18 @@ define download_file(
   }
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
+
+
+  if $proxyAddress {
+    warning("${module_name}: The use of proxyAddress in Download_file[${title}] is deprecated. Use proxy_address instead.")
+    $proxy_address_real = $proxyAddress
+  } else {
+    $proxy_address_real = $proxy_address
+  }
+
+  if $proxyAddress and $proxy_address {
+    fail ("${module_name}: Download_file[${title}] specifies both proxyAddress and proxy_address. Use proxy_address only.")
+  }
 
   validate_re($url, '.+')
   validate_re($destination_directory, '.+')
