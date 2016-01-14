@@ -19,7 +19,7 @@ describe 'download_file', :type => :define do
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
       :destination_directory => 'c:\temp',
-      :proxyAddress => ''
+      :proxy_address => ''
     }}
 
     it { should contain_exec('download-test.exe').with({
@@ -64,7 +64,7 @@ describe 'download_file', :type => :define do
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
       :destination_directory => 'c:\temp',
-      :proxyAddress => 'test-proxy-01:8888'
+      :proxy_address => 'test-proxy-01:8888'
     }}
 
     it { should contain_exec('download-test.exe').with({
@@ -78,7 +78,7 @@ describe 'download_file', :type => :define do
     let(:params) {{
       :url => 'http://myserver.com/test.exe',
       :destination_directory => 'c:\temp',
-      :proxyAddress => 'test-proxy-01:8888'
+      :proxy_address => 'test-proxy-01:8888'
     }}
 
     ps1 = <<-PS1.gsub(/^ {6}/, '')
@@ -226,6 +226,22 @@ describe 'download_file', :type => :define do
         expect {
           should contain_exec('download-foo.exe')
         }.to raise_error(Puppet::Error, /Integer/)
+      }
+    end
+  end
+
+  describe 'the proxyAddress parameter' do
+    let(:title)  { 'Download nodejs installer' }
+    let(:params) {{
+        :url => 'http://my.server/test.exe',
+        :destination_directory => 'c:\temp',
+        :destination_file => 'foo.exe',
+        :proxyAddress => 'http://localhost:9090'
+    }}
+
+    describe 'is still supported' do
+      it {
+        expect { should contain_exec('download-foo.exe') }.to_not raise_error
       }
     end
   end
