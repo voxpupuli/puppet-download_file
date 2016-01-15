@@ -1,3 +1,15 @@
+##2016-01-18 - Release 1.3.0
+###Summary
+
+This release fixes the default timeout value for exec and also deprecates
+the proxyAddress variable in favor of proxy_address
+
+##2015-04-17 - Release 1.2.1
+###Summary
+
+This release contains various changes needed after the move to the
+puppet-community namespace
+
 ##2014-10-17 - Release 1.1.1
 ###Summary
 
@@ -5,7 +17,7 @@ This releases fixes a bug where duplicate resources can occur
 
 ####Bugfixes
 
-- fixes (#10) where C:\Temp and C:/Temp throws duplicate resource error 
+- fixes (#10) where C:\Temp and C:/Temp throws duplicate resource error
 
 ##2014-10-17 - Release 1.1.0
 ###Summary
