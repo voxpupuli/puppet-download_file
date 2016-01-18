@@ -9,7 +9,7 @@ describe 'download_file', :type => :define do
     }}
 
     it { should contain_exec('download-test.exe').with({
-      'command' => "c:\\temp\\download-test.ps1",
+      'command' => "& 'c:\\temp\\download-test.ps1'",
       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
     })}
   end
@@ -23,7 +23,7 @@ describe 'download_file', :type => :define do
     }}
 
     it { should contain_exec('download-test.exe').with({
-      'command' => "c:\\temp\\download-test.ps1",
+      'command' => "& 'c:\\temp\\download-test.ps1'",
       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
     })}
   end
@@ -68,7 +68,7 @@ describe 'download_file', :type => :define do
     }}
 
     it { should contain_exec('download-test.exe').with({
-      'command' => "c:\\temp\\download-test.ps1",
+      'command' => "& 'c:\\temp\\download-test.ps1'",
       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
     })}
   end
@@ -142,7 +142,7 @@ describe 'download_file', :type => :define do
     }}
 
     it { should contain_exec('download-test.msi').with({
-      'command' => "c:\\temp\\download-test.ps1",
+      'command' => "& 'c:\\temp\\download-test.ps1'",
       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.msi') { exit 1 } else { exit 0 }",
     })}
   end
@@ -155,7 +155,7 @@ describe 'download_file', :type => :define do
     }}
 
     it { should contain_exec('download-nodejs-0.10.15-x64.msi').with({
-      'command' => "c:\\temp\\download-nodejs-0.10.15-x64.ps1",
+      'command' => "& 'c:\\temp\\download-nodejs-0.10.15-x64.ps1'",
       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\nodejs-0.10.15-x64.msi') { exit 1 } else { exit 0 }",
     })}
   end
@@ -168,7 +168,7 @@ describe 'download_file', :type => :define do
     }}
 
     it { should contain_exec('download-test.exe').with({
-      'command' => "c:\\temp\\download-test.ps1",
+      'command' => "& 'c:\\temp\\download-test.ps1'",
       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
     })}
   end
@@ -182,7 +182,7 @@ describe 'download_file', :type => :define do
     }}
 
     it { should contain_exec('download-foo.exe').with({
-      'command' => "c:\\temp\\download-test.ps1",
+      'command' => "& 'c:\\temp\\download-test.ps1'",
       'onlyif'  => "if(Test-Path -Path 'c:\\temp\\foo.exe') { exit 1 } else { exit 0 }",
     })}
   end
