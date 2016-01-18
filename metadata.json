@@ -1,12 +1,12 @@
 {
   "name": "puppet-download_file",
-  "version": "1.2.1",
-  "author": "puppetcommunity",
+  "version": "1.3.0",
+  "author": "voxpupuli",
   "license": "Apache 2.0",
   "summary": "A module that will download files for use on Windows servers. Requires the server to have PowerShell 2.0 and above",
-  "source": "https://github.com/puppet-community/puppet-download_file",
-  "project_page": "https://github.com/puppet-community/puppet-download_file",
-  "issues_url": "https://github.com/puppet-communtiy/puppet-download_file/issues",
+  "source": "https://github.com/voxpupuli/puppet-download_file",
+  "project_page": "https://github.com/voxpupuli/puppet-download_file",
+  "issues_url": "https://github.com/puppet-voxpupuli/puppet-download_file/issues",
   "tags": ["windows", "utility"],
   "operatingsystem_support": [
     {
