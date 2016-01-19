@@ -25,6 +25,15 @@
 # [*proxy_address*]
 # The optional http proxy address to use when downloading the file
 #
+# [*proxy_user*]
+# When using a proxy, the optional authentication user name.
+#
+# [*proxy_password*]
+# When using a proxy, the optional authentication password.
+#
+# [*is_password_secure*]
+# Boolean value. If true, proxy_password is assumed to be a securestring. Defaults to true.
+#
 # [*timeout*]
 # The optional timeout(in seconds) in case you expect to download big and slow file
 #
@@ -52,6 +61,9 @@ define download_file(
   $destination_file = '',
   $proxyAddress=undef,
   $proxy_address=undef,
+  $proxy_user='',
+  $proxy_password='',
+  $is_password_secure=true,
   $timeout = undef
 ) {
 
@@ -67,7 +79,6 @@ define download_file(
   }
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
-
 
   if $proxyAddress {
     warning("${module_name}: The use of proxyAddress in Download_file[${title}] is deprecated. Use proxy_address instead.")

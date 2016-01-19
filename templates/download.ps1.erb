@@ -1,12 +1,26 @@
 $webclient = New-Object System.Net.WebClient
 $proxyAddress = '<%= @proxy_address_real %>'
+$proxyUser = '<%= @proxy_user %>'
+$proxyPassword = '<%= @proxy_password %>'
+
 if ($proxyAddress -ne '') {
-  if (!$proxyAddress.StartsWith('http://')) {
+  if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
     $proxyAddress = 'http://' + $proxyAddress
   }
 
   $proxy = new-object System.Net.WebProxy
   $proxy.Address = $proxyAddress
+  if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+  
+    <% if @is_password_secure %>
+    $password = ConvertTo-SecureString -string $proxyPassword
+    <% else %>
+    $password = ConvertTo-SecureString "$proxyPassword" -AsPlainText -Force
+    <% end %>
+    
+    $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+    $webclient.UseDefaultCredentials = $true
+  }
   $webclient.proxy = $proxy
 }
 
