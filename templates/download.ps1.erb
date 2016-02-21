@@ -1,5 +1,5 @@
 $webclient = New-Object System.Net.WebClient
-$proxyAddress = '<%= @proxy_address_real %>'
+$proxyAddress = '<%= @proxy_address %>'
 if ($proxyAddress -ne '') {
   if (!$proxyAddress.StartsWith('http://')) {
     $proxyAddress = 'http://' + $proxyAddress

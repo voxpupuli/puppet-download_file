@@ -34,7 +34,7 @@
 #
 #    download_file { "Download dotnet 4.0" :
 #      url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
-#      destination_directory => 'c:\temp'
+#      destination_directory => 'c:\temp',
 #    }
 #
 # To download dotnet 4.0 using a proxy and extend operation timeout to 30000 seconds 
@@ -43,14 +43,13 @@
 #      url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
 #      destination_directory => 'c:\temp',
 #      proxy_address         => 'http://corporateproxy.net:8080',
-#      timeout               => 30000
+#      timeout               => 30000,
 #    }
 #
 define download_file(
   $url,
   $destination_directory,
   $destination_file = '',
-  $proxyAddress=undef,
   $proxy_address=undef,
   $timeout = undef
 ) {
@@ -68,18 +67,6 @@ define download_file(
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
 
-
-  if $proxyAddress {
-    warning("${module_name}: The use of proxyAddress in Download_file[${title}] is deprecated. Use proxy_address instead.")
-    $proxy_address_real = $proxyAddress
-  } else {
-    $proxy_address_real = $proxy_address
-  }
-
-  if $proxyAddress and $proxy_address {
-    fail ("${module_name}: Download_file[${title}] specifies both proxyAddress and proxy_address. Use proxy_address only.")
-  }
-
   validate_re($url, '.+')
   validate_re($destination_directory, '.+')
   validate_re($filename, '.+')
@@ -95,6 +82,6 @@ define download_file(
     provider  => powershell,
     onlyif    => "if(Test-Path -Path '${destination_directory}\\${filename}') { exit 1 } else { exit 0 }",
     logoutput => true,
-    require   => File["download-${filename}.ps1"]
+    require   => File["download-${filename}.ps1"],
   }
 }
