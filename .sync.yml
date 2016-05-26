@@ -1,9 +1,4 @@
 ---
-spec/spec_helper_acceptance.rb:
-  windows: true
-  dependencies:
-    - puppetlabs-stdlib
-    - puppetlabs-powershell
 spec/acceptance/nodesets/centos-511-x64.yml:
   delete: true
 spec/acceptance/nodesets/centos-66-x64-pe.yml:
