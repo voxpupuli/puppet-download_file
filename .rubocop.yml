@@ -68,6 +68,11 @@ Style/BlockDelimiters:
 Style/MultilineBlockLayout:
   Enabled: False
 
+Style/BracesAroundHashParameters:
+  Enabled: true
+
+Style/BlockDelimiters:
+  Enabled: true
 # Rspec
 
 # We don't use rspec in this way
