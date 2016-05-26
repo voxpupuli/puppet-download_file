@@ -10,8 +10,8 @@ describe 'download_file' do
         }
       PP
 
-      apply_manifest(pp, :catch_failures => true)
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, catch_failures: true)
+      expect(apply_manifest(pp, catch_failures: true).exit_code).to be_zero
     end
 
     describe file('C:\\dotNetFx40_Full_x86_x64.exe') do

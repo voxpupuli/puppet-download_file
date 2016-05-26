@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe 'download_file', :type => :define do
+describe 'download_file', type: :define do
   describe 'when downloading a file without a proxy' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) {{
-      :url => 'http://myserver.com/test.exe',
-      :destination_directory => 'c:\temp'
+      url: 'http://myserver.com/test.exe',
+      destination_directory: 'c:\temp'
     }}
 
     it { should contain_exec('download-test.exe').with(
@@ -17,9 +17,9 @@ describe 'download_file', :type => :define do
   describe 'when downloading a file with a empty string proxy' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) {{
-      :url => 'http://myserver.com/test.exe',
-      :destination_directory => 'c:\temp',
-      :proxy_address => ''
+      url: 'http://myserver.com/test.exe',
+      destination_directory: 'c:\temp',
+      proxy_address: ''
     }}
 
     it { should contain_exec('download-test.exe').with(
@@ -30,7 +30,7 @@ describe 'download_file', :type => :define do
 
   describe 'when downloading a file without a proxy we want to check that the erb gets evaluated correctly' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) { { :url => 'http://myserver.com/test.exe', :destination_directory => 'c:\temp' } }
+    let(:params) { { url: 'http://myserver.com/test.exe', destination_directory: 'c:\temp' } }
 
     ps1 = <<-PS1.gsub(/^ {6}/, '')
       $webclient = New-Object System.Net.WebClient
@@ -62,9 +62,9 @@ describe 'download_file', :type => :define do
   describe 'when downloading a file using a proxy server' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) {{
-      :url => 'http://myserver.com/test.exe',
-      :destination_directory => 'c:\temp',
-      :proxy_address => 'test-proxy-01:8888'
+      url: 'http://myserver.com/test.exe',
+      destination_directory: 'c:\temp',
+      proxy_address: 'test-proxy-01:8888'
     }}
 
     it { should contain_exec('download-test.exe').with(
@@ -76,9 +76,9 @@ describe 'download_file', :type => :define do
   describe 'when downloading a file using a proxy server we want to check that the erb gets evaluated correctly' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) {{
-      :url => 'http://myserver.com/test.exe',
-      :destination_directory => 'c:\temp',
-      :proxy_address => 'test-proxy-01:8888'
+      url: 'http://myserver.com/test.exe',
+      destination_directory: 'c:\temp',
+      proxy_address: 'test-proxy-01:8888'
     }}
 
     ps1 = <<-PS1.gsub(/^ {6}/, '')
@@ -111,7 +111,7 @@ describe 'download_file', :type => :define do
   describe 'when not passing a destination url to the download define' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) {{
-      :url => 'http://myserver.com/test.exe'
+      url: 'http://myserver.com/test.exe'
     }}
 
     it {
@@ -124,7 +124,7 @@ describe 'download_file', :type => :define do
   describe 'when not passing a URL to the file to download to the define' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) {{
-      :destination_directory => 'c:\temp'
+      destination_directory: 'c:\temp'
     }}
 
     it {
@@ -137,8 +137,8 @@ describe 'download_file', :type => :define do
   describe 'when downloading a non-exe file' do
     let(:title)  { 'Download MSI' }
     let(:params) {{
-      :url => 'http://myserver.com/test.msi',
-      :destination_directory => 'c:\temp'
+      url: 'http://myserver.com/test.msi',
+      destination_directory: 'c:\temp'
     }}
 
     it { should contain_exec('download-test.msi').with(
@@ -150,8 +150,8 @@ describe 'download_file', :type => :define do
   describe 'when downloading the nodejs installer' do
     let(:title)  { 'Download nodejs installer' }
     let(:params) {{
-      :url => 'http://artifactory.otsql.opentable.com:8081/artifactory/simple/puppet/windows/nodejs/0.10.15/nodejs-0.10.15-x64.msi',
-      :destination_directory => 'c:\temp'
+      url: 'http://artifactory.otsql.opentable.com:8081/artifactory/simple/puppet/windows/nodejs/0.10.15/nodejs-0.10.15-x64.msi',
+      destination_directory: 'c:\temp'
     }}
 
     it { should contain_exec('download-nodejs-0.10.15-x64.msi').with(
@@ -163,8 +163,8 @@ describe 'download_file', :type => :define do
   describe 'when the destination is a folder' do
     let(:title)  { 'Download nodejs installer' }
     let(:params) {{
-      :url => 'http://my.server/test.exe',
-      :destination_directory => 'c:\temp'
+      url: 'http://my.server/test.exe',
+      destination_directory: 'c:\temp'
     }}
 
     it { should contain_exec('download-test.exe').with(
@@ -176,9 +176,9 @@ describe 'download_file', :type => :define do
   describe 'when the filename is different to the filename in the url' do
     let(:title)  { 'Download nodejs installer' }
     let(:params) {{
-      :url => 'http://my.server/test.exe',
-      :destination_directory => 'c:\temp',
-      :destination_file => 'foo.exe'
+      url: 'http://my.server/test.exe',
+      destination_directory: 'c:\temp',
+      destination_file: 'foo.exe'
     }}
 
     it { should contain_exec('download-foo.exe').with(
@@ -191,9 +191,9 @@ describe 'download_file', :type => :define do
     context 'when not specified' do
       let(:title)  { 'Download nodejs installer' }
       let(:params) {{
-        :url => 'http://my.server/test.exe',
-        :destination_directory => 'c:\temp',
-        :destination_file => 'foo.exe'
+        url: 'http://my.server/test.exe',
+        destination_directory: 'c:\temp',
+        destination_file: 'foo.exe'
       }}
       it { should contain_exec('download-foo.exe').with('timeout' => nil) }
     end
@@ -201,10 +201,10 @@ describe 'download_file', :type => :define do
     context 'when given an integer value' do
       let(:title)  { 'Download nodejs installer' }
       let(:params) {{
-        :url => 'http://my.server/test.exe',
-        :destination_directory => 'c:\temp',
-        :destination_file => 'foo.exe',
-        :timeout => '30000'
+        url: 'http://my.server/test.exe',
+        destination_directory: 'c:\temp',
+        destination_file: 'foo.exe',
+        timeout: '30000'
       }}
       it { should contain_exec('download-foo.exe').with('timeout' => '30000') }
     end
@@ -212,10 +212,10 @@ describe 'download_file', :type => :define do
     context 'when given a non-integer value' do
       let(:title)  { 'Download nodejs installer' }
       let(:params) {{
-        :url => 'http://my.server/test.exe',
-        :destination_directory => 'c:\temp',
-        :destination_file => 'foo.exe',
-        :timeout => 'this-cannot-work'
+        url: 'http://my.server/test.exe',
+        destination_directory: 'c:\temp',
+        destination_file: 'foo.exe',
+        timeout: 'this-cannot-work'
       }}
       it {
         expect {
