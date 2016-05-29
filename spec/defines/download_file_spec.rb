@@ -1,5 +1,9 @@
+# coding: utf-8
 require 'spec_helper'
 
+# This file is special, given what we're checking here is the output of our
+# generated PowerShell script, we want to
+# rubocop:disable Style/TrailingWhitespace
 describe 'download_file', type: :define do
   describe 'when downloading a file without a proxy' do
     let(:title)  { 'Download DotNet 4.0' }
@@ -92,7 +96,7 @@ describe 'download_file', type: :define do
   end
 
   describe 'when downloading a file using a proxy server without credentials we want to check that the erb gets evaluated correctly' do
-    let(:title)  { 'Download DotNet 4.0' }
+    let(:title) { 'Download DotNet 4.0' }
     let(:params) do {
       url: 'http://myserver.com/test.exe',
       destination_directory: 'c:\temp',
@@ -137,32 +141,35 @@ describe 'download_file', type: :define do
     PS1
 
     it { should contain_file('download-test.exe.ps1').with_content(ps1) }
-	end
+  end
 
   describe 'when downloading a file using a proxy server with credentials' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) {{
-      :url => 'http://myserver.com/test.exe',
-      :destination_directory => 'c:\temp',
-      :proxy_address => 'test-proxy-01:8888',
-      :proxy_user => 'test-user',
-      :proxy_password => 'test-secure'
-    }}
-    it { should contain_exec('download-test.exe').with({
-      'command' => "c:\\temp\\download-test.ps1",
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
-    })}
+    let(:params) do {
+      url: 'http://myserver.com/test.exe',
+      destination_directory: 'c:\temp',
+      proxy_address: 'test-proxy-01:8888',
+      proxy_user: 'test-user',
+      proxy_password: 'test-secure'
+    }
+    end
+    it do should contain_exec('download-test.exe').with(
+      'command' => 'c:\\temp\\download-test.ps1',
+      'onlyif' => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
+    )
+    end
   end
 
   describe 'when downloading a file using a proxy server with secure credentials we want to check that the erb gets evaluated correctly' do
-    let(:title)  { 'Download DotNet 4.0' }
-    let(:params) {{
-      :url => 'http://myserver.com/test.exe',
-      :destination_directory => 'c:\temp',
-      :proxy_address => 'test-proxy-01:8888',
-      :proxy_user => 'test-user',
-      :proxy_password => 'test-secure'
-    }}
+    let(:title) { 'Download DotNet 4.0' }
+    let(:params) do {
+      url: 'http://myserver.com/test.exe',
+      destination_directory: 'c:\temp',
+      proxy_address: 'test-proxy-01:8888',
+      proxy_user: 'test-user',
+      proxy_password: 'test-secure'
+    }
+    end
 
     ps1 = <<-PS1.gsub(/^ {6}/, '')
       $webclient = New-Object System.Net.WebClient
@@ -201,35 +208,38 @@ describe 'download_file', type: :define do
     PS1
 
     it { should contain_file('download-test.exe.ps1').with_content(ps1) }
-	end
+  end
 
   describe 'when downloading a file using a proxy server with insecure credentials' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) {{
-      :url => 'http://myserver.com/test.exe',
-      :destination_directory => 'c:\temp',
-      :proxy_address => 'test-proxy-01:8888',
-      :proxy_user => 'test-user',
-      :proxy_password => 'test',
-      :is_password_secure => false
-    }}
+    let(:params) do {
+      url: 'http://myserver.com/test.exe',
+      destination_directory: 'c:\temp',
+      proxy_address: 'test-proxy-01:8888',
+      proxy_user: 'test-user',
+      proxy_password: 'test',
+      is_password_secure: false
+    }
+    end
 
-    it { should contain_exec('download-test.exe').with({
-      'command' => "c:\\temp\\download-test.ps1",
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
-    })}
+    it do should contain_exec('download-test.exe').with(
+      'command' => 'c:\\temp\\download-test.ps1',
+      'onlyif' => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
+    )
+    end
   end
 
   describe 'when downloading a file using a proxy server with insecure credentials we want to check that the erb gets evaluated correctly' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) {{
-      :url => 'http://myserver.com/test.exe',
-      :destination_directory => 'c:\temp',
-      :proxy_address => 'test-proxy-01:8888',
-      :proxy_user => 'test-user',
-      :proxy_password => 'test',
-      :is_password_secure => false
-    }}
+    let(:params) do {
+      url: 'http://myserver.com/test.exe',
+      destination_directory: 'c:\temp',
+      proxy_address: 'test-proxy-01:8888',
+      proxy_user: 'test-user',
+      proxy_password: 'test',
+      is_password_secure: false
+    }
+    end
 
     ps1 = <<-PS1.gsub(/^ {6}/, '')
       $webclient = New-Object System.Net.WebClient
@@ -394,27 +404,28 @@ describe 'download_file', type: :define do
         timeout: 'this-cannot-work'
       }
       end
-      it {
-        expect {
+      it do
+        expect do
           should contain_exec('download-foo.exe')
-        }.to raise_error(Puppet::Error, /Integer/)
-      }
+        end.to raise_error(Puppet::Error, /Integer/)
+      end
     end
   end
 
   describe 'the proxyAddress parameter' do
     let(:title)  { 'Download nodejs installer' }
-    let(:params) {{
-      :url => 'http://my.server/test.exe',
-      :destination_directory => 'c:\temp',
-      :destination_file => 'foo.exe',
-      :proxyAddress => 'http://localhost:9090'
-    }}
+    let(:params) do {
+      url: 'http://my.server/test.exe',
+      destination_directory: 'c:\temp',
+      destination_file: 'foo.exe',
+      proxyAddress: 'http://localhost:9090'
+    }
+    end
 
     describe 'is not supported any more' do
-      it {
+      it do
         expect { should contain_exec('download-foo.exe') }.to raise_error
-      }
       end
     end
   end
+end
