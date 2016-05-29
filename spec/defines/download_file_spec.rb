@@ -39,13 +39,25 @@ describe 'download_file', type: :define do
     ps1 = <<-PS1.gsub(/^ {6}/, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = ''
+      $proxyUser = ''
+      $proxyPassword = ''
+
       if ($proxyAddress -ne '') {
-        if (!$proxyAddress.StartsWith('http://')) {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
         }
 
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
+          $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
         $webclient.proxy = $proxy
       }
 
@@ -63,7 +75,7 @@ describe 'download_file', type: :define do
     it { should contain_file('download-test.exe.ps1').with_content(ps1) }
   end
 
-  describe 'when downloading a file using a proxy server' do
+  describe 'when downloading a file using a proxy server without credentials' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) do {
       url: 'http://myserver.com/test.exe',
@@ -79,7 +91,7 @@ describe 'download_file', type: :define do
     end
   end
 
-  describe 'when downloading a file using a proxy server we want to check that the erb gets evaluated correctly' do
+  describe 'when downloading a file using a proxy server without credentials we want to check that the erb gets evaluated correctly' do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) do {
       url: 'http://myserver.com/test.exe',
@@ -91,13 +103,156 @@ describe 'download_file', type: :define do
     ps1 = <<-PS1.gsub(/^ {6}/, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
+      $proxyUser = ''
+      $proxyPassword = ''
+
       if ($proxyAddress -ne '') {
-        if (!$proxyAddress.StartsWith('http://')) {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
         }
 
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
+          $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
+        $webclient.proxy = $proxy
+      }
+
+      try {
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
+      }
+      catch [Exception] {
+        write-host $_.Exception.GetType().FullName
+        write-host $_.Exception.Message
+        write-host $_.Exception.InnerException.Message
+        throw $_.Exception
+      }
+    PS1
+
+    it { should contain_file('download-test.exe.ps1').with_content(ps1) }
+	end
+
+  describe 'when downloading a file using a proxy server with credentials' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) {{
+      :url => 'http://myserver.com/test.exe',
+      :destination_directory => 'c:\temp',
+      :proxy_address => 'test-proxy-01:8888',
+      :proxy_user => 'test-user',
+      :proxy_password => 'test-secure'
+    }}
+    it { should contain_exec('download-test.exe').with({
+      'command' => "c:\\temp\\download-test.ps1",
+      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
+    })}
+  end
+
+  describe 'when downloading a file using a proxy server with secure credentials we want to check that the erb gets evaluated correctly' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) {{
+      :url => 'http://myserver.com/test.exe',
+      :destination_directory => 'c:\temp',
+      :proxy_address => 'test-proxy-01:8888',
+      :proxy_user => 'test-user',
+      :proxy_password => 'test-secure'
+    }}
+
+    ps1 = <<-PS1.gsub(/^ {6}/, '')
+      $webclient = New-Object System.Net.WebClient
+      $proxyAddress = 'test-proxy-01:8888'
+      $proxyUser = 'test-user'
+      $proxyPassword = 'test-secure'
+
+      if ($proxyAddress -ne '') {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
+          $proxyAddress = 'http://' + $proxyAddress
+        }
+
+        $proxy = new-object System.Net.WebProxy
+        $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
+          $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
+        $webclient.proxy = $proxy
+      }
+
+      try {
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
+      }
+      catch [Exception] {
+        write-host $_.Exception.GetType().FullName
+        write-host $_.Exception.Message
+        write-host $_.Exception.InnerException.Message
+        throw $_.Exception
+      }
+    PS1
+
+    it { should contain_file('download-test.exe.ps1').with_content(ps1) }
+	end
+
+  describe 'when downloading a file using a proxy server with insecure credentials' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) {{
+      :url => 'http://myserver.com/test.exe',
+      :destination_directory => 'c:\temp',
+      :proxy_address => 'test-proxy-01:8888',
+      :proxy_user => 'test-user',
+      :proxy_password => 'test',
+      :is_password_secure => false
+    }}
+
+    it { should contain_exec('download-test.exe').with({
+      'command' => "c:\\temp\\download-test.ps1",
+      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
+    })}
+  end
+
+  describe 'when downloading a file using a proxy server with insecure credentials we want to check that the erb gets evaluated correctly' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) {{
+      :url => 'http://myserver.com/test.exe',
+      :destination_directory => 'c:\temp',
+      :proxy_address => 'test-proxy-01:8888',
+      :proxy_user => 'test-user',
+      :proxy_password => 'test',
+      :is_password_secure => false
+    }}
+
+    ps1 = <<-PS1.gsub(/^ {6}/, '')
+      $webclient = New-Object System.Net.WebClient
+      $proxyAddress = 'test-proxy-01:8888'
+      $proxyUser = 'test-user'
+      $proxyPassword = 'test'
+
+      if ($proxyAddress -ne '') {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
+          $proxyAddress = 'http://' + $proxyAddress
+        }
+
+        $proxy = new-object System.Net.WebProxy
+        $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
+          $password = ConvertTo-SecureString "$proxyPassword" -AsPlainText -Force
+          
+          
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
         $webclient.proxy = $proxy
       }
 
@@ -239,11 +394,27 @@ describe 'download_file', type: :define do
         timeout: 'this-cannot-work'
       }
       end
-      it do
-        expect do
+      it {
+        expect {
           should contain_exec('download-foo.exe')
-        end.to raise_error(Puppet::Error, /Integer/)
+        }.to raise_error(Puppet::Error, /Integer/)
+      }
+    end
+  end
+
+  describe 'the proxyAddress parameter' do
+    let(:title)  { 'Download nodejs installer' }
+    let(:params) {{
+      :url => 'http://my.server/test.exe',
+      :destination_directory => 'c:\temp',
+      :destination_file => 'foo.exe',
+      :proxyAddress => 'http://localhost:9090'
+    }}
+
+    describe 'is not supported any more' do
+      it {
+        expect { should contain_exec('download-foo.exe') }.to raise_error
+      }
       end
     end
   end
-end
