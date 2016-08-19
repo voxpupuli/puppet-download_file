@@ -1,4 +1,3 @@
-# coding: utf-8
 require 'spec_helper'
 
 # This file is special, given what we're checking here is the output of our
@@ -7,32 +6,36 @@ require 'spec_helper'
 describe 'download_file', type: :define do
   describe 'when downloading a file without a proxy' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe',
-      destination_directory: 'c:\temp'
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp'
+      }
     end
 
-    it do should contain_exec('download-test.exe').with(
-      'command' => 'c:\\temp\\download-test.ps1',
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
-    )
+    it do 
+      should contain_exec('download-test.exe').with(
+        'command' => 'c:\\temp\\download-test.ps1',
+        'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
   describe 'when downloading a file with a empty string proxy' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe',
-      destination_directory: 'c:\temp',
-      proxy_address: ''
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        proxy_address: ''
+      }
     end
 
-    it do should contain_exec('download-test.exe').with(
-      'command' => 'c:\\temp\\download-test.ps1',
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
-    )
+    it do 
+      should contain_exec('download-test.exe').with(
+        'command' => 'c:\\temp\\download-test.ps1',
+        'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
@@ -40,7 +43,7 @@ describe 'download_file', type: :define do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) { { url: 'http://myserver.com/test.exe', destination_directory: 'c:\temp' } }
 
-    ps1 = <<-PS1.gsub(/^ {6}/, '')
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = ''
       $proxyUser = ''
@@ -81,30 +84,33 @@ describe 'download_file', type: :define do
 
   describe 'when downloading a file using a proxy server without credentials' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe',
-      destination_directory: 'c:\temp',
-      proxy_address: 'test-proxy-01:8888'
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        proxy_address: 'test-proxy-01:8888'
+      }
     end
 
-    it do should contain_exec('download-test.exe').with(
-      'command' => 'c:\\temp\\download-test.ps1',
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
-    )
+    it do 
+      should contain_exec('download-test.exe').with(
+        'command' => 'c:\\temp\\download-test.ps1',
+        'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
   describe 'when downloading a file using a proxy server without credentials we want to check that the erb gets evaluated correctly' do
     let(:title) { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe',
-      destination_directory: 'c:\temp',
-      proxy_address: 'test-proxy-01:8888'
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        proxy_address: 'test-proxy-01:8888'
+      }
     end
 
-    ps1 = <<-PS1.gsub(/^ {6}/, '')
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = ''
@@ -145,33 +151,36 @@ describe 'download_file', type: :define do
 
   describe 'when downloading a file using a proxy server with credentials' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe',
-      destination_directory: 'c:\temp',
-      proxy_address: 'test-proxy-01:8888',
-      proxy_user: 'test-user',
-      proxy_password: 'test-secure'
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        proxy_address: 'test-proxy-01:8888',
+        proxy_user: 'test-user',
+        proxy_password: 'test-secure'
+      }
     end
-    it do should contain_exec('download-test.exe').with(
-      'command' => 'c:\\temp\\download-test.ps1',
-      'onlyif' => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
-    )
+    it do 
+      should contain_exec('download-test.exe').with(
+        'command' => 'c:\\temp\\download-test.ps1',
+        'onlyif' => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
   describe 'when downloading a file using a proxy server with secure credentials we want to check that the erb gets evaluated correctly' do
     let(:title) { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe',
-      destination_directory: 'c:\temp',
-      proxy_address: 'test-proxy-01:8888',
-      proxy_user: 'test-user',
-      proxy_password: 'test-secure'
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        proxy_address: 'test-proxy-01:8888',
+        proxy_user: 'test-user',
+        proxy_password: 'test-secure'
+      }
     end
 
-    ps1 = <<-PS1.gsub(/^ {6}/, '')
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
@@ -212,36 +221,39 @@ describe 'download_file', type: :define do
 
   describe 'when downloading a file using a proxy server with insecure credentials' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe',
-      destination_directory: 'c:\temp',
-      proxy_address: 'test-proxy-01:8888',
-      proxy_user: 'test-user',
-      proxy_password: 'test',
-      is_password_secure: false
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        proxy_address: 'test-proxy-01:8888',
+        proxy_user: 'test-user',
+        proxy_password: 'test',
+        is_password_secure: false
+      }
     end
 
-    it do should contain_exec('download-test.exe').with(
-      'command' => 'c:\\temp\\download-test.ps1',
-      'onlyif' => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
-    )
+    it do 
+      should contain_exec('download-test.exe').with(
+        'command' => 'c:\\temp\\download-test.ps1',
+        'onlyif' => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
   describe 'when downloading a file using a proxy server with insecure credentials we want to check that the erb gets evaluated correctly' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe',
-      destination_directory: 'c:\temp',
-      proxy_address: 'test-proxy-01:8888',
-      proxy_user: 'test-user',
-      proxy_password: 'test',
-      is_password_secure: false
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        proxy_address: 'test-proxy-01:8888',
+        proxy_user: 'test-user',
+        proxy_password: 'test',
+        is_password_secure: false
+      }
     end
 
-    ps1 = <<-PS1.gsub(/^ {6}/, '')
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
@@ -282,9 +294,10 @@ describe 'download_file', type: :define do
 
   describe 'when not passing a destination url to the download define' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) do {
-      url: 'http://myserver.com/test.exe'
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.exe'
+      }
     end
 
     it do
@@ -296,9 +309,10 @@ describe 'download_file', type: :define do
 
   describe 'when not passing a URL to the file to download to the define' do
     let(:title)  { 'Download DotNet 4.0' }
-    let(:params) do {
-      destination_directory: 'c:\temp'
-    }
+    let(:params) do 
+      {
+        destination_directory: 'c:\temp'
+      }
     end
 
     it do
@@ -310,31 +324,35 @@ describe 'download_file', type: :define do
 
   describe 'when downloading a non-exe file' do
     let(:title)  { 'Download MSI' }
-    let(:params) do {
-      url: 'http://myserver.com/test.msi',
-      destination_directory: 'c:\temp'
-    }
+    let(:params) do 
+      {
+        url: 'http://myserver.com/test.msi',
+        destination_directory: 'c:\temp'
+      }
     end
 
-    it do should contain_exec('download-test.msi').with(
-      'command' => 'c:\\temp\\download-test.ps1',
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.msi') { exit 1 } else { exit 0 }",
-    )
+    it do 
+      should contain_exec('download-test.msi').with(
+        'command' => 'c:\\temp\\download-test.ps1',
+        'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.msi') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
   describe 'when downloading the nodejs installer' do
     let(:title)  { 'Download nodejs installer' }
-    let(:params) do {
-      url: 'http://artifactory.otsql.opentable.com:8081/artifactory/simple/puppet/windows/nodejs/0.10.15/nodejs-0.10.15-x64.msi',
-      destination_directory: 'c:\temp'
-    }
+    let(:params) do 
+      {
+        url: 'http://artifactory.otsql.opentable.com:8081/artifactory/simple/puppet/windows/nodejs/0.10.15/nodejs-0.10.15-x64.msi',
+        destination_directory: 'c:\temp'
+      }
     end
 
-    it do should contain_exec('download-nodejs-0.10.15-x64.msi').with(
-      'command' => 'c:\\temp\\download-nodejs-0.10.15-x64.ps1',
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\nodejs-0.10.15-x64.msi') { exit 1 } else { exit 0 }",
-    )
+    it do 
+      should contain_exec('download-nodejs-0.10.15-x64.msi').with(
+        'command' => 'c:\\temp\\download-nodejs-0.10.15-x64.ps1',
+        'onlyif'  => "if(Test-Path -Path 'c:\\temp\\nodejs-0.10.15-x64.msi') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
@@ -347,10 +365,11 @@ describe 'download_file', type: :define do
       }
     end
 
-    it do should contain_exec('download-test.exe').with(
-      'command' => 'c:\\temp\\download-test.ps1',
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }",
-    )
+    it do 
+      should contain_exec('download-test.exe').with(
+        'command' => 'c:\\temp\\download-test.ps1',
+        'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
@@ -364,62 +383,67 @@ describe 'download_file', type: :define do
       }
     end
 
-    it do should contain_exec('download-foo.exe').with(
-      'command' => 'c:\\temp\\download-test.ps1',
-      'onlyif'  => "if(Test-Path -Path 'c:\\temp\\foo.exe') { exit 1 } else { exit 0 }",
-    )
+    it do 
+      should contain_exec('download-foo.exe').with(
+        'command' => 'c:\\temp\\download-test.ps1',
+        'onlyif'  => "if(Test-Path -Path 'c:\\temp\\foo.exe') { exit 1 } else { exit 0 }"
+      )
     end
   end
 
   describe 'the timeout parameter' do
     context 'when not specified' do
       let(:title)  { 'Download nodejs installer' }
-      let(:params) do {
-        url: 'http://my.server/test.exe',
-        destination_directory: 'c:\temp',
-        destination_file: 'foo.exe'
-      }
+      let(:params) do 
+        {
+          url: 'http://my.server/test.exe',
+          destination_directory: 'c:\temp',
+          destination_file: 'foo.exe'
+        }
       end
       it { should contain_exec('download-foo.exe').with('timeout' => nil) }
     end
 
     context 'when given an integer value' do
       let(:title)  { 'Download nodejs installer' }
-      let(:params) do {
-        url: 'http://my.server/test.exe',
-        destination_directory: 'c:\temp',
-        destination_file: 'foo.exe',
-        timeout: '30000'
-      }
+      let(:params) do 
+        {
+          url: 'http://my.server/test.exe',
+          destination_directory: 'c:\temp',
+          destination_file: 'foo.exe',
+          timeout: '30000'
+        }
       end
       it { should contain_exec('download-foo.exe').with('timeout' => '30000') }
     end
 
     context 'when given a non-integer value' do
       let(:title)  { 'Download nodejs installer' }
-      let(:params) do {
-        url: 'http://my.server/test.exe',
-        destination_directory: 'c:\temp',
-        destination_file: 'foo.exe',
-        timeout: 'this-cannot-work'
-      }
+      let(:params) do 
+        {
+          url: 'http://my.server/test.exe',
+          destination_directory: 'c:\temp',
+          destination_file: 'foo.exe',
+          timeout: 'this-cannot-work'
+        }
       end
       it do
         expect do
           should contain_exec('download-foo.exe')
-        end.to raise_error(Puppet::Error, /Integer/)
+        end.to raise_error(Puppet::Error, %r{Integer})
       end
     end
   end
 
   describe 'the proxyAddress parameter' do
     let(:title)  { 'Download nodejs installer' }
-    let(:params) do {
-      url: 'http://my.server/test.exe',
-      destination_directory: 'c:\temp',
-      destination_file: 'foo.exe',
-      proxyAddress: 'http://localhost:9090'
-    }
+    let(:params) do 
+      {
+        url: 'http://my.server/test.exe',
+        destination_directory: 'c:\temp',
+        destination_file: 'foo.exe',
+        proxyAddress: 'http://localhost:9090'
+      }
     end
 
     describe 'is not supported any more' do

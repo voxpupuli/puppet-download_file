@@ -17,6 +17,9 @@
 The download_file module allows you to download files on Windows
 
 [![Build Status](https://travis-ci.org/voxpupuli/puppet-download_file.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-download_file)
+[![Puppet Forge](http://img.shields.io/puppetforge/v/puppet/download_file.svg)](https://forge.puppet.com/puppet/download_file)
+[![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/puppet/download_file.svg)](https://forge.puppetlabs.com/puppet/download_file)
+
 ##Module Description
 
 The download_file module introduced a small define `download_file` that will allow you to download a file over http(s) for usage during an installation.
