@@ -1,4 +1,3 @@
-# coding: utf-8
 require 'spec_helper'
 
 # This file is special, given what we're checking here is the output of our
