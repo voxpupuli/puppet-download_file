@@ -40,7 +40,7 @@ describe 'download_file', type: :define do
     let(:title)  { 'Download DotNet 4.0' }
     let(:params) { { url: 'http://myserver.com/test.exe', destination_directory: 'c:\temp' } }
 
-    ps1 = <<-PS1.gsub(/^ {6}/, '')
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = ''
       $proxyUser = ''
@@ -104,7 +104,7 @@ describe 'download_file', type: :define do
     }
     end
 
-    ps1 = <<-PS1.gsub(/^ {6}/, '')
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = ''
@@ -171,7 +171,7 @@ describe 'download_file', type: :define do
     }
     end
 
-    ps1 = <<-PS1.gsub(/^ {6}/, '')
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
@@ -241,7 +241,7 @@ describe 'download_file', type: :define do
     }
     end
 
-    ps1 = <<-PS1.gsub(/^ {6}/, '')
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
@@ -407,7 +407,7 @@ describe 'download_file', type: :define do
       it do
         expect do
           should contain_exec('download-foo.exe')
-        end.to raise_error(Puppet::Error, /Integer/)
+        end.to raise_error(Puppet::Error, %r{Integer})
       end
     end
   end
