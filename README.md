@@ -1,5 +1,12 @@
 # Download File module for Puppet
 
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-download_file.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-download_file)
+[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-download_file/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-download_file)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/download_file.svg)](https://forge.puppetlabs.com/puppet/download_file)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/download_file.svg)](https://forge.puppetlabs.com/puppet/download_file)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/download_file.svg)](https://forge.puppetlabs.com/puppet/download_file)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/download_file.svg)](https://forge.puppetlabs.com/puppet/download_file)
+
 #### Table of Contents
 
 1. [Overview](#overview)
@@ -16,10 +23,6 @@
 ## Overview
 
 The download_file module allows you to download files on Windows
-
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-download_file.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-download_file)
-[![Puppet Forge](http://img.shields.io/puppetforge/v/puppet/download_file.svg)](https://forge.puppet.com/puppet/download_file)
-[![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/puppet/download_file.svg)](https://forge.puppetlabs.com/puppet/download_file)
 
 ## Module Description
 
