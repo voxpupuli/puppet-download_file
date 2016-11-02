@@ -15,7 +15,7 @@ describe 'download_file' do
     end
 
     describe file('C:\\dotNetFx40_Full_x86_x64.exe') do
-      it { should be_file }
+      it { is_expected.to be_file }
     end
   end
 end
