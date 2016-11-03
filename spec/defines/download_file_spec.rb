@@ -14,7 +14,7 @@ describe 'download_file', type: :define do
     end
 
     it do 
-      should contain_exec('download-test.exe').with(
+      is_expected.to contain_exec('download-test.exe').with(
         'command' => 'c:\\temp\\download-test.ps1',
         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
       )
@@ -32,7 +32,7 @@ describe 'download_file', type: :define do
     end
 
     it do 
-      should contain_exec('download-test.exe').with(
+      is_expected.to contain_exec('download-test.exe').with(
         'command' => 'c:\\temp\\download-test.ps1',
         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
       )
@@ -79,7 +79,7 @@ describe 'download_file', type: :define do
       }
     PS1
 
-    it { should contain_file('download-test.exe.ps1').with_content(ps1) }
+    it { is_expected.to contain_file('download-test.exe.ps1').with_content(ps1) }
   end
 
   describe 'when downloading a file using a proxy server without credentials' do
@@ -93,7 +93,7 @@ describe 'download_file', type: :define do
     end
 
     it do 
-      should contain_exec('download-test.exe').with(
+      is_expected.to contain_exec('download-test.exe').with(
         'command' => 'c:\\temp\\download-test.ps1',
         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
       )
@@ -146,7 +146,7 @@ describe 'download_file', type: :define do
       }
     PS1
 
-    it { should contain_file('download-test.exe.ps1').with_content(ps1) }
+    it { is_expected.to contain_file('download-test.exe.ps1').with_content(ps1) }
   end
 
   describe 'when downloading a file using a proxy server with credentials' do
@@ -161,7 +161,7 @@ describe 'download_file', type: :define do
       }
     end
     it do 
-      should contain_exec('download-test.exe').with(
+      is_expected.to contain_exec('download-test.exe').with(
         'command' => 'c:\\temp\\download-test.ps1',
         'onlyif' => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
       )
@@ -216,7 +216,7 @@ describe 'download_file', type: :define do
       }
     PS1
 
-    it { should contain_file('download-test.exe.ps1').with_content(ps1) }
+    it { is_expected.to contain_file('download-test.exe.ps1').with_content(ps1) }
   end
 
   describe 'when downloading a file using a proxy server with insecure credentials' do
@@ -233,7 +233,7 @@ describe 'download_file', type: :define do
     end
 
     it do 
-      should contain_exec('download-test.exe').with(
+      is_expected.to contain_exec('download-test.exe').with(
         'command' => 'c:\\temp\\download-test.ps1',
         'onlyif' => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
       )
@@ -289,7 +289,7 @@ describe 'download_file', type: :define do
       }
     PS1
 
-    it { should contain_file('download-test.exe.ps1').with_content(ps1) }
+    it { is_expected.to contain_file('download-test.exe.ps1').with_content(ps1) }
   end
 
   describe 'when not passing a destination url to the download define' do
@@ -302,7 +302,7 @@ describe 'download_file', type: :define do
 
     it do
       expect do
-        should contain_exec('download-test.exe')
+        is_expected.to contain_exec('download-test.exe')
       end.to raise_error(Puppet::Error)
     end
   end
@@ -317,7 +317,7 @@ describe 'download_file', type: :define do
 
     it do
       expect do
-        should contain_exec('download-test.exe')
+        is_expected.to contain_exec('download-test.exe')
       end.to raise_error(Puppet::Error)
     end
   end
@@ -332,7 +332,7 @@ describe 'download_file', type: :define do
     end
 
     it do 
-      should contain_exec('download-test.msi').with(
+      is_expected.to contain_exec('download-test.msi').with(
         'command' => 'c:\\temp\\download-test.ps1',
         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.msi') { exit 1 } else { exit 0 }"
       )
@@ -349,7 +349,7 @@ describe 'download_file', type: :define do
     end
 
     it do 
-      should contain_exec('download-nodejs-0.10.15-x64.msi').with(
+      is_expected.to contain_exec('download-nodejs-0.10.15-x64.msi').with(
         'command' => 'c:\\temp\\download-nodejs-0.10.15-x64.ps1',
         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\nodejs-0.10.15-x64.msi') { exit 1 } else { exit 0 }"
       )
@@ -366,7 +366,7 @@ describe 'download_file', type: :define do
     end
 
     it do 
-      should contain_exec('download-test.exe').with(
+      is_expected.to contain_exec('download-test.exe').with(
         'command' => 'c:\\temp\\download-test.ps1',
         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\test.exe') { exit 1 } else { exit 0 }"
       )
@@ -384,7 +384,7 @@ describe 'download_file', type: :define do
     end
 
     it do 
-      should contain_exec('download-foo.exe').with(
+      is_expected.to contain_exec('download-foo.exe').with(
         'command' => 'c:\\temp\\download-test.ps1',
         'onlyif'  => "if(Test-Path -Path 'c:\\temp\\foo.exe') { exit 1 } else { exit 0 }"
       )
@@ -401,7 +401,7 @@ describe 'download_file', type: :define do
           destination_file: 'foo.exe'
         }
       end
-      it { should contain_exec('download-foo.exe').with('timeout' => nil) }
+      it { is_expected.to contain_exec('download-foo.exe').with('timeout' => nil) }
     end
 
     context 'when given an integer value' do
@@ -414,7 +414,7 @@ describe 'download_file', type: :define do
           timeout: '30000'
         }
       end
-      it { should contain_exec('download-foo.exe').with('timeout' => '30000') }
+      it { is_expected.to contain_exec('download-foo.exe').with('timeout' => '30000') }
     end
 
     context 'when given a non-integer value' do
@@ -429,7 +429,7 @@ describe 'download_file', type: :define do
       end
       it do
         expect do
-          should contain_exec('download-foo.exe')
+          is_expected.to contain_exec('download-foo.exe')
         end.to raise_error(Puppet::Error, %r{Integer})
       end
     end
@@ -448,7 +448,7 @@ describe 'download_file', type: :define do
 
     describe 'is not supported any more' do
       it do
-        expect { should contain_exec('download-foo.exe') }.to raise_error
+        expect { is_expected.to contain_exec('download-foo.exe') }.to raise_error
       end
     end
   end
