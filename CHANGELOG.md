@@ -1,3 +1,13 @@
+# Changelog
+
+## 2017-02-11 - Release 2.1.0
+
+This is the last release with puppet3 support!
+* Fix several markdown issues
+* Add missing badges
+* Rubocop: Fix RSpec/ImplicitExpect
+* Set min version_requirement for Puppet + deps
+
 ## 2016-08-19 - Release 2.0.0
 
 * Modulesync with latest Vox Pupuli defaults
