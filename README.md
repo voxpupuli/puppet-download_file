@@ -126,6 +126,10 @@ The optional switch to change the way that `proxyPassword` is interpreted from
 secure string to plaintext. This will send the password in plaintext to the
 machine being provisioned, which may be a security concern.
 
+#### `cookies`
+
+An optional array of cookies to add to the HTTP request for the download.
+
 ## Limitations
 
 This module is tested on the following platforms:

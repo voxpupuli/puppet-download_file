@@ -37,6 +37,9 @@
 # [*timeout*]
 # The optional timeout(in seconds) in case you expect to download big and slow file
 #
+# [*cookies*]
+# An optional array of cookies to add to the HTTP request for the download.
+#
 # === Examples
 #
 # To download dotnet 4.0
