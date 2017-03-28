@@ -67,7 +67,7 @@ define download_file(
   $proxy_password='',
   $is_password_secure=true,
   $timeout = undef,
-  $cookies = undef
+  Optional[Array[String]] $cookies = undef
 ) {
 
   if "x${destination_file}x" == 'xx' {
@@ -82,7 +82,6 @@ define download_file(
   }
 
   if $cookies {
-    validate_array($cookies)
     $cookie_string = join($cookies, ';')
   }
 
