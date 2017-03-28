@@ -63,7 +63,8 @@ define download_file(
   $proxy_user='',
   $proxy_password='',
   $is_password_secure=true,
-  $timeout = undef
+  $timeout = undef,
+  $cookies = undef
 ) {
 
   if "x${destination_file}x" == 'xx' {
@@ -75,6 +76,11 @@ define download_file(
   if $timeout {
     validate_integer($timeout)
     Exec { timeout => $timeout }
+  }
+
+  if $cookies {
+    validate_array($cookies)
+    $cookie_string = join($cookies, ';')
   }
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
