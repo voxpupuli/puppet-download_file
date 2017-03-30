@@ -37,6 +37,9 @@
 # [*timeout*]
 # The optional timeout(in seconds) in case you expect to download big and slow file
 #
+# [*cookies*]
+# An optional array of cookies to add to the HTTP request for the download.
+#
 # === Examples
 #
 # To download dotnet 4.0
@@ -63,7 +66,8 @@ define download_file(
   $proxy_user='',
   $proxy_password='',
   $is_password_secure=true,
-  $timeout = undef
+  $timeout = undef,
+  Optional[Array[String]] $cookies = undef
 ) {
 
   if "x${destination_file}x" == 'xx' {
@@ -75,6 +79,10 @@ define download_file(
   if $timeout {
     validate_integer($timeout)
     Exec { timeout => $timeout }
+  }
+
+  if $cookies {
+    $cookie_string = join($cookies, ';')
   }
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')

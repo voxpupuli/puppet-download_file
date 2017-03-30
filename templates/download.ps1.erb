@@ -23,7 +23,9 @@ if ($proxyAddress -ne '') {
   }
   $webclient.proxy = $proxy
 }
-
+<% if @cookies %>
+<%= '$webclient.Headers.Add([System.Net.HttpRequestHeader]::Cookie, "' + @cookie_string + '")' %>
+<% end %>
 try {
   $webclient.DownloadFile('<%= @url %>', '<%= @destination_directory %>\<%= @filename %>')
 }
