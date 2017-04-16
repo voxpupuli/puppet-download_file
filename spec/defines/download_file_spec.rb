@@ -160,6 +160,7 @@ describe 'download_file', type: :define do
         proxy_password: 'test-secure'
       }
     end
+
     it do 
       is_expected.to contain_exec('download-test.exe').with(
         'command' => 'c:\\temp\\download-test.ps1',
@@ -452,6 +453,7 @@ describe 'download_file', type: :define do
           destination_file: 'foo.exe'
         }
       end
+
       it { is_expected.to contain_exec('download-foo.exe').with('timeout' => nil) }
     end
 
@@ -465,6 +467,7 @@ describe 'download_file', type: :define do
           timeout: '30000'
         }
       end
+
       it { is_expected.to contain_exec('download-foo.exe').with('timeout' => '30000') }
     end
 
@@ -478,6 +481,7 @@ describe 'download_file', type: :define do
           timeout: 'this-cannot-work'
         }
       end
+
       it do
         expect do
           is_expected.to contain_exec('download-foo.exe')
