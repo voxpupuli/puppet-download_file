@@ -40,6 +40,9 @@
 # [*cookies*]
 # An optional array of cookies to add to the HTTP request for the download.
 #
+# [*insecure*]
+# Allows for SSL verification bypass
+#
 # === Examples
 #
 # To download dotnet 4.0
@@ -67,6 +70,7 @@ define download_file(
   $proxy_password='',
   $is_password_secure=true,
   $timeout = undef,
+  $insecure = false,
   Optional[Array[String]] $cookies = undef
 ) {
 
