@@ -1,3 +1,31 @@
+<% if @insecure %>
+Add-Type @"
+    using System;
+    using System.Net;
+    using System.Net.Security;
+    using System.Security.Cryptography.X509Certificates;
+    public class ServerCertificateValidationCallback
+    {
+        public static void Ignore()
+        {
+            ServicePointManager.ServerCertificateValidationCallback += 
+                delegate
+                (
+                    Object obj, 
+                    X509Certificate certificate, 
+                    X509Chain chain, 
+                    SslPolicyErrors errors
+                )
+                {
+                    return true;
+                };
+        }
+    }
+"@
+
+[ServerCertificateValidationCallback]::Ignore();
+<% end %>
+
 $webclient = New-Object System.Net.WebClient
 $proxyAddress = '<%= @proxy_address %>'
 $proxyUser = '<%= @proxy_user %>'
@@ -27,29 +55,6 @@ if ($proxyAddress -ne '') {
 <%= '$webclient.Headers.Add([System.Net.HttpRequestHeader]::Cookie, "' + @cookie_string + '")' %>
 <% end %>
 
-<% if @insecure %>
-$netAssembly = [Reflection.Assembly]::GetAssembly([System.Net.Configuration.SettingsSection])
-
-if($netAssembly)
- {
-    $bindingFlags = [Reflection.BindingFlags] "Static,GetProperty,NonPublic"
-    $settingsType = $netAssembly.GetType("System.Net.Configuration.SettingsSectionInternal")
-
-    $instance = $settingsType.InvokeMember("Section", $bindingFlags, $null, $null, @())
-
-    if($instance)
-    {
-        $bindingFlags = "NonPublic","Instance"
-        $useUnsafeHeaderParsingField = $settingsType.GetField("useUnsafeHeaderParsing", $bindingFlags)
-
-        if($useUnsafeHeaderParsingField)
-        {
-          $useUnsafeHeaderParsingField.SetValue($instance, $true)
-        }
-    }
-}
-
-<% end %>
 try {
   $webclient.DownloadFile('<%= @url %>', '<%= @destination_directory %>\<%= @filename %>')
 }
