@@ -1,3 +1,8 @@
+$webclient = New-Object System.Net.WebClient
+$proxyAddress = '<%= @proxy_address %>'
+$proxyUser = '<%= @proxy_user %>'
+$proxyPassword = '<%= @proxy_password %>'
+
 <% if @insecure %>
 Add-Type @"
     using System;
@@ -26,10 +31,6 @@ Add-Type @"
 [ServerCertificateValidationCallback]::Ignore();
 <% end %>
 
-$webclient = New-Object System.Net.WebClient
-$proxyAddress = '<%= @proxy_address %>'
-$proxyUser = '<%= @proxy_user %>'
-$proxyPassword = '<%= @proxy_password %>'
 
 if ($proxyAddress -ne '') {
   if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
