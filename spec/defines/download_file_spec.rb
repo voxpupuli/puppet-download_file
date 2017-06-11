@@ -464,29 +464,11 @@ describe 'download_file', type: :define do
           url: 'http://my.server/test.exe',
           destination_directory: 'c:\temp',
           destination_file: 'foo.exe',
-          timeout: '30000'
+          timeout: 30000
         }
       end
 
-      it { is_expected.to contain_exec('download-foo.exe').with('timeout' => '30000') }
-    end
-
-    context 'when given a non-integer value' do
-      let(:title)  { 'Download nodejs installer' }
-      let(:params) do 
-        {
-          url: 'http://my.server/test.exe',
-          destination_directory: 'c:\temp',
-          destination_file: 'foo.exe',
-          timeout: 'this-cannot-work'
-        }
-      end
-
-      it do
-        expect do
-          is_expected.to contain_exec('download-foo.exe')
-        end.to raise_error(Puppet::Error, %r{Integer})
-      end
+      it { is_expected.to contain_exec('download-foo.exe').with('timeout' => 30000) }
     end
   end
 

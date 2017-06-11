@@ -59,25 +59,24 @@
 #    }
 #
 define download_file(
-  $url,
-  $destination_directory,
-  $destination_file = '',
-  $proxy_address=undef,
-  $proxy_user='',
-  $proxy_password='',
-  $is_password_secure=true,
-  $timeout = undef,
-  Optional[Array[String]] $cookies = undef
+  Stdlib::HTTPUrl $url,
+  String $destination_directory,
+  Optional[String] $destination_file = undef,
+  $proxy_address                     = undef,
+  $proxy_user                        = '',
+  $proxy_password                    = '',
+  $is_password_secure                = true,
+  Optional[Integer] $timeout         = undef,
+  Optional[Array[String]] $cookies   = undef
 ) {
 
-  if "x${destination_file}x" == 'xx' {
-    $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
-  } else {
+  if $destination_file {
     $filename = $destination_file
+  } else {
+    $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
   }
 
   if $timeout {
-    validate_integer($timeout)
     Exec { timeout => $timeout }
   }
 
@@ -86,10 +85,6 @@ define download_file(
   }
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
-
-  validate_re($url, '.+')
-  validate_re($destination_directory, '.+')
-  validate_re($filename, '.+')
 
   file { "download-${filename}.ps1":
     ensure  => present,
