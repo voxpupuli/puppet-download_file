@@ -464,11 +464,11 @@ describe 'download_file', type: :define do
           url: 'http://my.server/test.exe',
           destination_directory: 'c:\temp',
           destination_file: 'foo.exe',
-          timeout: 30000
+          timeout: 30_000
         }
       end
 
-      it { is_expected.to contain_exec('download-foo.exe').with('timeout' => 30000) }
+      it { is_expected.to contain_exec('download-foo.exe').with('timeout' => 30_000) }
     end
   end
 
