@@ -49,7 +49,7 @@
 #      destination_directory => 'c:\temp',
 #    }
 #
-# To download dotnet 4.0 using a proxy and extend operation timeout to 30000 seconds 
+# To download dotnet 4.0 using a proxy and extend operation timeout to 30000 seconds
 #
 #    download_file { "Download dotnet 4.0" :
 #      url                   => 'http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe',
@@ -59,25 +59,24 @@
 #    }
 #
 define download_file(
-  $url,
-  $destination_directory,
-  $destination_file = '',
-  $proxy_address=undef,
-  $proxy_user='',
-  $proxy_password='',
-  $is_password_secure=true,
-  $timeout = undef,
-  Optional[Array[String]] $cookies = undef
+  Stdlib::HTTPUrl $url,
+  String $destination_directory,
+  Optional[String] $destination_file = undef,
+  $proxy_address                     = undef,
+  $proxy_user                        = '',
+  $proxy_password                    = '',
+  $is_password_secure                = true,
+  Optional[Integer] $timeout         = undef,
+  Optional[Array[String]] $cookies   = undef
 ) {
 
-  if "x${destination_file}x" == 'xx' {
-    $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
-  } else {
+  if $destination_file {
     $filename = $destination_file
+  } else {
+    $filename = regsubst($url, '^http.*\/([^\/]+)$', '\1')
   }
 
   if $timeout {
-    validate_integer($timeout)
     Exec { timeout => $timeout }
   }
 
@@ -86,10 +85,6 @@ define download_file(
   }
 
   $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
-
-  validate_re($url, '.+')
-  validate_re($destination_directory, '.+')
-  validate_re($filename, '.+')
 
   file { "download-${filename}.ps1":
     ensure  => present,
