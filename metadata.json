@@ -1,6 +1,6 @@
 {
   "name": "puppet-download_file",
-  "version": "3.0.0",
+  "version": "3.0.1-rc0",
   "author": "Vox Pupuli",
   "license": "MIT",
   "summary": "A module that will download files for use on Windows servers. Requires the server to have PowerShell 2.0 and above",
