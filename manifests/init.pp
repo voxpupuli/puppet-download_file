@@ -84,16 +84,16 @@ define download_file(
     $cookie_string = join($cookies, ';')
   }
 
-  $powershell_filename = regsubst($url, '^(.*\/)(.+?)(?:\.[^\.]*$|$)$', '\2')
+  $file_path = "${destination_directory}\\download-${filename}.ps1"
 
   file { "download-${filename}.ps1":
     ensure  => present,
-    path    => "${destination_directory}\\download-${powershell_filename}.ps1",
+    path    => $file_path,
     content => template('download_file/download.ps1.erb'),
   }
 
   exec { "download-${filename}":
-    command   => "${destination_directory}\\download-${powershell_filename}.ps1",
+    command   => $file_path,
     provider  => powershell,
     onlyif    => "if(Test-Path -Path '${destination_directory}\\${filename}') { exit 1 } else { exit 0 }",
     logoutput => true,
