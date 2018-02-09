@@ -40,6 +40,9 @@
 # [*cookies*]
 # An optional array of cookies to add to the HTTP request for the download.
 #
+# [*user_agent*]
+# The optional user agent string to be sent when downloading.
+#
 # === Examples
 #
 # To download dotnet 4.0
@@ -67,7 +70,8 @@ define download_file(
   $proxy_password                    = '',
   $is_password_secure                = true,
   Optional[Integer] $timeout         = undef,
-  Optional[Array[String]] $cookies   = undef
+  Optional[Array[String]] $cookies   = undef,
+  Optional[String] $user_agent       = undef
 ) {
 
   if $destination_file {
