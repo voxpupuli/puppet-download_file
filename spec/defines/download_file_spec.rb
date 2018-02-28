@@ -49,6 +49,10 @@ describe 'download_file', type: :define do
       $proxyUser = ''
       $proxyPassword = ''
 
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
+
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
@@ -115,6 +119,10 @@ describe 'download_file', type: :define do
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = ''
       $proxyPassword = ''
+
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -186,6 +194,10 @@ describe 'download_file', type: :define do
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
       $proxyPassword = 'test-secure'
+
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -260,6 +272,10 @@ describe 'download_file', type: :define do
       $proxyUser = 'test-user'
       $proxyPassword = 'test'
 
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
+
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
@@ -309,6 +325,10 @@ describe 'download_file', type: :define do
       $proxyUser = ''
       $proxyPassword = ''
 
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
+
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
@@ -329,6 +349,113 @@ describe 'download_file', type: :define do
       }
 
       $webclient.Headers.Add([System.Net.HttpRequestHeader]::Cookie, "my_cookie=something-secure;this_too=something-else")
+
+      try {
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
+      }
+      catch [Exception] {
+        write-host $_.Exception.GetType().FullName
+        write-host $_.Exception.Message
+        write-host $_.Exception.InnerException.Message
+        throw $_.Exception
+      }
+    PS1
+
+    it { is_expected.to contain_file('download-test.exe.ps1').with_content(ps1) }
+  end
+
+  describe 'when downloading a file with allow_insecure_ssl false we want to check that the erb gets evaluated correctly' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) do
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        allow_insecure_ssl: false
+      }
+    end
+
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
+      $webclient = New-Object System.Net.WebClient
+      $proxyAddress = ''
+      $proxyUser = ''
+      $proxyPassword = ''
+
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+>>>>>>> 761a294... Add allow_insecure_ssl supporting sslv3; enable by default
+
+
+      if ($proxyAddress -ne '') {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
+          $proxyAddress = 'http://' + $proxyAddress
+        }
+
+        $proxy = new-object System.Net.WebProxy
+        $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
+          $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
+        $webclient.proxy = $proxy
+      }
+
+      try {
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
+      }
+      catch [Exception] {
+        write-host $_.Exception.GetType().FullName
+        write-host $_.Exception.Message
+        write-host $_.Exception.InnerException.Message
+        throw $_.Exception
+      }
+    PS1
+
+    it { is_expected.to contain_file('download-test.exe.ps1').with_content(ps1) }
+  end
+
+  describe 'when downloading a file with allow_insecure_ssl false we want to check that the erb gets evaluated correctly' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) do
+      {
+        url: 'http://myserver.com/test.exe',
+        destination_directory: 'c:\temp',
+        allow_insecure_ssl: false
+      }
+    end
+
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
+      $webclient = New-Object System.Net.WebClient
+      $proxyAddress = ''
+      $proxyUser = ''
+      $proxyPassword = ''
+
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
+
+      if ($proxyAddress -ne '') {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
+          $proxyAddress = 'http://' + $proxyAddress
+        }
+
+        $proxy = new-object System.Net.WebProxy
+        $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
+          $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
+        $webclient.proxy = $proxy
+      }
 
       try {
         $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
