@@ -3,6 +3,8 @@ $proxyAddress = '<%= @proxy_address %>'
 $proxyUser = '<%= @proxy_user %>'
 $proxyPassword = '<%= @proxy_password %>'
 
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12 
+
 if ($proxyAddress -ne '') {
   if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
     $proxyAddress = 'http://' + $proxyAddress
