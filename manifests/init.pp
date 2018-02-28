@@ -43,6 +43,9 @@
 # [*user_agent*]
 # The optional user agent string to be sent when downloading.
 #
+# [*allow_insecure_ssl*]
+# Allow sslv3 in addition to TLS version for HTTPS connections. Defaults to true.
+#
 # === Examples
 #
 # To download dotnet 4.0
@@ -64,14 +67,15 @@
 define download_file(
   Stdlib::HTTPUrl $url,
   String $destination_directory,
-  Optional[String] $destination_file = undef,
-  $proxy_address                     = undef,
-  $proxy_user                        = '',
-  $proxy_password                    = '',
-  $is_password_secure                = true,
-  Optional[Integer] $timeout         = undef,
-  Optional[Array[String]] $cookies   = undef,
-  Optional[String] $user_agent       = undef
+  Optional[String] $destination_file    = undef,
+  $proxy_address                        = undef,
+  $proxy_user                           = '',
+  $proxy_password                       = '',
+  $is_password_secure                   = true,
+  Optional[Integer] $timeout            = undef,
+  Optional[Array[String]] $cookies      = undef,
+  Optional[String] $user_agent          = undef,
+  Optional[Boolean] $allow_insecure_ssl = true
 ) {
 
   if $destination_file {

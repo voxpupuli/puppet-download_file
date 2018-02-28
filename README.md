@@ -130,6 +130,13 @@ machine being provisioned, which may be a security concern.
 
 An optional array of cookies to add to the HTTP request for the download.
 
+#### `allow_insecure_ssl`
+
+Permits the use of sslv3 HTTPS connections. If this is set to false, only TLSv1, TLSv1.1
+and TLSv1.2 are permitted.
+
+Defaults to true.
+
 ## Limitations
 
 This module is tested on the following platforms:

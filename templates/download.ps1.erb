@@ -5,6 +5,11 @@ $proxyPassword = '<%= @proxy_password %>'
 <% if @user_agent %>
 $webclient.Headers['User-Agent'] = '<%= @user_agent %>'
 <% end %>
+<% if @allow_insecure_ssl %>
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+<% else %>
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+<% end %>
 
 if ($proxyAddress -ne '') {
   if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
