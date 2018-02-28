@@ -50,6 +50,9 @@ describe 'download_file', type: :define do
       $proxyPassword = ''
 
 
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
+
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
@@ -117,6 +120,9 @@ describe 'download_file', type: :define do
       $proxyUser = ''
       $proxyPassword = ''
 
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+      
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -188,6 +194,9 @@ describe 'download_file', type: :define do
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
       $proxyPassword = 'test-secure'
+
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
 
 
       if ($proxyAddress -ne '') {
@@ -264,6 +273,9 @@ describe 'download_file', type: :define do
       $proxyPassword = 'test'
 
 
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
+
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
@@ -312,6 +324,9 @@ describe 'download_file', type: :define do
       $proxyAddress = ''
       $proxyUser = ''
       $proxyPassword = ''
+
+
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
 
 
       if ($proxyAddress -ne '') {
