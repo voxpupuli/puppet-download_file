@@ -43,6 +43,9 @@
 # [*user_agent*]
 # The optional user agent string to be sent when downloading.
 #
+# [*allow_insecure_ssl*]
+# Allow sslv3 in addition to TLS version for HTTPS connections. Defaults to true.
+#
 # === Examples
 #
 # To download dotnet 4.0
@@ -72,6 +75,7 @@ define download_file(
   Optional[Integer] $timeout         = undef,
   Optional[Array[String]] $cookies   = undef,
   Optional[String] $user_agent       = undef
+  $allow_insecure_ssl                = true
 ) {
 
   if $destination_file {
