@@ -49,7 +49,9 @@ describe 'download_file', type: :define do
       $proxyUser = ''
       $proxyPassword = ''
 
+
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -118,7 +120,9 @@ describe 'download_file', type: :define do
       $proxyUser = ''
       $proxyPassword = ''
 
+
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -191,7 +195,9 @@ describe 'download_file', type: :define do
       $proxyUser = 'test-user'
       $proxyPassword = 'test-secure'
 
+
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -266,7 +272,9 @@ describe 'download_file', type: :define do
       $proxyUser = 'test-user'
       $proxyPassword = 'test'
 
+
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -317,7 +325,9 @@ describe 'download_file', type: :define do
       $proxyUser = ''
       $proxyPassword = ''
 
+
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -327,11 +337,11 @@ describe 'download_file', type: :define do
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
         if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
-
-
+        
+          
           $password = ConvertTo-SecureString -string $proxyPassword
-
-
+          
+          
           $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
           $webclient.UseDefaultCredentials = $true
         }
@@ -370,7 +380,9 @@ describe 'download_file', type: :define do
       $proxyUser = ''
       $proxyPassword = ''
 
+
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -390,8 +402,6 @@ describe 'download_file', type: :define do
         }
         $webclient.proxy = $proxy
       }
-
-      $webclient.Headers.Add([System.Net.HttpRequestHeader]::Cookie, "my_cookie=something-secure;this_too=something-else")
 
       try {
         $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
