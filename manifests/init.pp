@@ -40,6 +40,9 @@
 # [*cookies*]
 # An optional array of cookies to add to the HTTP request for the download.
 #
+# [*allow_insecure_ssl*]
+# Allow sslv3 in addition to TLS version for HTTPS connections. Defaults to true.
+#
 # === Examples
 #
 # To download dotnet 4.0
@@ -67,7 +70,8 @@ define download_file(
   $proxy_password                    = '',
   $is_password_secure                = true,
   Optional[Integer] $timeout         = undef,
-  Optional[Array[String]] $cookies   = undef
+  Optional[Array[String]] $cookies   = undef,
+  $allow_insecure_ssl                = true
 ) {
 
   if $destination_file {
