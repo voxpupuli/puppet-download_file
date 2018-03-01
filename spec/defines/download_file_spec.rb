@@ -370,7 +370,7 @@ describe 'download_file', type: :define do
       {
         url: 'http://myserver.com/test.exe',
         destination_directory: 'c:\temp',
-        allow_insecure_ssl: false,
+        allow_insecure_ssl: false
       }
     end
 
