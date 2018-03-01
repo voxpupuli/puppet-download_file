@@ -337,11 +337,11 @@ describe 'download_file', type: :define do
         $proxy = new-object System.Net.WebProxy
         $proxy.Address = $proxyAddress
         if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
-
-
+        
+          
           $password = ConvertTo-SecureString -string $proxyPassword
-
-
+          
+          
           $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
           $webclient.UseDefaultCredentials = $true
         }
@@ -402,8 +402,6 @@ describe 'download_file', type: :define do
         }
         $webclient.proxy = $proxy
       }
-
-      $webclient.Headers.Add([System.Net.HttpRequestHeader]::Cookie, "my_cookie=something-secure;this_too=something-else")
 
       try {
         $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
