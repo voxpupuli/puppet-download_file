@@ -2,6 +2,9 @@ $webclient = New-Object System.Net.WebClient
 $proxyAddress = '<%= @proxy_address %>'
 $proxyUser = '<%= @proxy_user %>'
 $proxyPassword = '<%= @proxy_password %>'
+<% if @user_agent %>
+$webclient.Headers['User-Agent'] = '<%= @user_agent %>'
+<% end %>
 
 if ($proxyAddress -ne '') {
   if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {

@@ -49,6 +49,7 @@ describe 'download_file', type: :define do
       $proxyUser = ''
       $proxyPassword = ''
 
+
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
@@ -115,6 +116,7 @@ describe 'download_file', type: :define do
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = ''
       $proxyPassword = ''
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -186,6 +188,7 @@ describe 'download_file', type: :define do
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
       $proxyPassword = 'test-secure'
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -260,6 +263,7 @@ describe 'download_file', type: :define do
       $proxyUser = 'test-user'
       $proxyPassword = 'test'
 
+
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
           $proxyAddress = 'http://' + $proxyAddress
@@ -308,6 +312,7 @@ describe 'download_file', type: :define do
       $proxyAddress = ''
       $proxyUser = ''
       $proxyPassword = ''
+
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
