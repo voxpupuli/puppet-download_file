@@ -64,14 +64,14 @@
 define download_file(
   Stdlib::HTTPUrl $url,
   String $destination_directory,
-  Optional[String] $destination_file = undef,
-  $proxy_address                     = undef,
-  $proxy_user                        = '',
-  $proxy_password                    = '',
-  $is_password_secure                = true,
-  Optional[Integer] $timeout         = undef,
-  Optional[Array[String]] $cookies   = undef,
-  $allow_insecure_ssl                = true
+  Optional[String] $destination_file    = undef,
+  $proxy_address                        = undef,
+  $proxy_user                           = '',
+  $proxy_password                       = '',
+  $is_password_secure                   = true,
+  Optional[Integer] $timeout            = undef,
+  Optional[Array[String]] $cookies      = undef,
+  Optional[Boolean] $allow_insecure_ssl = true
 ) {
 
   if $destination_file {
