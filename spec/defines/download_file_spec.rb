@@ -382,7 +382,6 @@ describe 'download_file', type: :define do
 
 
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls10 -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
->>>>>>> 761a294... Add allow_insecure_ssl supporting sslv3; enable by default
 
 
       if ($proxyAddress -ne '') {
