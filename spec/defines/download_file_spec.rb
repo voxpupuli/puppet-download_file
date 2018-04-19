@@ -45,10 +45,19 @@ describe 'download_file', type: :define do
 
     ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
+      $user = ''
+      $password = ''
       $proxyAddress = ''
       $proxyUser = ''
       $proxyPassword = ''
 
+      # This is potentially not secure if not using ssl
+      if (($user -ne '') -and ($password -ne '')) {
+        # Basic authentication encoding.
+        $basic = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($user + ":" + $password));
+        # Set Authorization HTTP header with Basic authentication information.
+        $webclient.Headers["Authorization"] = "Basic $basic"
+      }
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -113,10 +122,19 @@ describe 'download_file', type: :define do
 
     ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
+      $user = ''
+      $password = ''
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = ''
       $proxyPassword = ''
 
+      # This is potentially not secure if not using ssl
+      if (($user -ne '') -and ($password -ne '')) {
+        # Basic authentication encoding.
+        $basic = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($user + ":" + $password));
+        # Set Authorization HTTP header with Basic authentication information.
+        $webclient.Headers["Authorization"] = "Basic $basic"
+      }
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -185,10 +203,19 @@ describe 'download_file', type: :define do
 
     ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
+      $user = ''
+      $password = ''
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
       $proxyPassword = 'test-secure'
-
+      
+      # This is potentially not secure if not using ssl
+      if (($user -ne '') -and ($password -ne '')) {
+        # Basic authentication encoding.
+        $basic = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($user + ":" + $password));
+        # Set Authorization HTTP header with Basic authentication information.
+        $webclient.Headers["Authorization"] = "Basic $basic"
+      }
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -259,10 +286,19 @@ describe 'download_file', type: :define do
 
     ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
+      $user = ''
+      $password = ''
       $proxyAddress = 'test-proxy-01:8888'
       $proxyUser = 'test-user'
       $proxyPassword = 'test'
 
+      # This is potentially not secure if not using ssl
+      if (($user -ne '') -and ($password -ne '')) {
+        # Basic authentication encoding.
+        $basic = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($user + ":" + $password));
+        # Set Authorization HTTP header with Basic authentication information.
+        $webclient.Headers["Authorization"] = "Basic $basic"
+      }
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -309,10 +345,19 @@ describe 'download_file', type: :define do
 
     ps1 = <<-PS1.gsub(%r{^ {6}}, '')
       $webclient = New-Object System.Net.WebClient
+      $user = ''
+      $password = ''
       $proxyAddress = ''
       $proxyUser = ''
       $proxyPassword = ''
 
+      # This is potentially not secure if not using ssl
+      if (($user -ne '') -and ($password -ne '')) {
+        # Basic authentication encoding.
+        $basic = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($user + ":" + $password));
+        # Set Authorization HTTP header with Basic authentication information.
+        $webclient.Headers["Authorization"] = "Basic $basic"
+      }
 
       if ($proxyAddress -ne '') {
         if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
@@ -493,5 +538,65 @@ describe 'download_file', type: :define do
         expect { is_expected.to contain_exec('download-foo.exe') }.to raise_error
       end
     end
+  end
+
+  describe 'when downloading a file with basic authenitcation we want to check that the erb gets evaluated correctly' do
+    let(:title)  { 'Download DotNet 4.0' }
+    let(:params) do 
+      { 
+        url: 'http://myserver.com/test.exe', 
+        destination_directory: 'c:\temp',
+        user: 'testuser',
+        password: 'testpass'
+      }
+    end
+    
+    ps1 = <<-PS1.gsub(%r{^ {6}}, '')
+      $webclient = New-Object System.Net.WebClient
+      $user = 'testuser'
+      $password = 'testpass'
+      $proxyAddress = ''
+      $proxyUser = ''
+      $proxyPassword = ''
+
+      # This is potentially not secure if not using ssl
+      if (($user -ne '') -and ($password -ne '')) {
+        # Basic authentication encoding.
+        $basic = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($user + ":" + $password));
+        # Set Authorization HTTP header with Basic authentication information.
+        $webclient.Headers["Authorization"] = "Basic $basic"
+      }
+
+      if ($proxyAddress -ne '') {
+        if (!($proxyAddress.StartsWith('http://') -or $proxyAddress.StartsWith('https://'))) {
+          $proxyAddress = 'http://' + $proxyAddress
+        }
+
+        $proxy = new-object System.Net.WebProxy
+        $proxy.Address = $proxyAddress
+        if (($proxyPassword -ne '') -and ($proxyUser -ne '')) {
+        
+          
+          $password = ConvertTo-SecureString -string $proxyPassword
+          
+          
+          $proxy.Credentials = New-Object System.Management.Automation.PSCredential($proxyUser, $password)
+          $webclient.UseDefaultCredentials = $true
+        }
+        $webclient.proxy = $proxy
+      }
+
+      try {
+        $webclient.DownloadFile('http://myserver.com/test.exe', 'c:\\temp\\test.exe')
+      }
+      catch [Exception] {
+        write-host $_.Exception.GetType().FullName
+        write-host $_.Exception.Message
+        write-host $_.Exception.InnerException.Message
+        throw $_.Exception
+      }
+    PS1
+
+    it { is_expected.to contain_file('download-test.exe.ps1').with_content(ps1) }
   end
 end
