@@ -1,5 +1,3 @@
 fixtures:
   repositories:
     stdlib: https://github.com/puppetlabs/puppetlabs-stdlib
-  symlinks:
-    download_file: "#{source_dir}"
