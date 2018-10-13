@@ -66,6 +66,8 @@ define download_file(
   String $destination_directory,
   Optional[String] $destination_file = undef,
   $proxy_address                     = undef,
+  $user                              = '',
+  $password                          = '',
   $proxy_user                        = '',
   $proxy_password                    = '',
   $is_password_secure                = true,

@@ -90,6 +90,16 @@ The full path to the directory on the system where the file will be downloaded t
 
 The optional name of the file to download onto the system.
 
+#### `user`
+
+The optional userid is used when authenticating via Basic Auth with the server.
+`user` and `password` must be specified or this has no effect.
+
+#### `password`
+
+The optional password is used when authenticating via Basic Auth with the server. 
+`user` and `password` must be specified or this has no effect.
+
 #### `proxy_address`
 
 The optional http proxy address to use when downloading the file
