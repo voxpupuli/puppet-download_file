@@ -1,3 +1,9 @@
+
+<% if @enable_protocols %>
+[Net.ServicePointManager]::Expect100Continue = 'true';
+[Net.ServicePointManager]::SecurityProtocol = 'Tls' | 'Tls11' | 'Tls12' | 'Ssl3';
+<% end %>
+
 $webclient = New-Object System.Net.WebClient
 $user = '<%= @user %>'
 $password = '<%= @password %>'
