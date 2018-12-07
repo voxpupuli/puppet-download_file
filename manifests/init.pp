@@ -71,7 +71,7 @@ define download_file(
   $proxy_user                        = '',
   $proxy_password                    = '',
   $is_password_secure                = true,
-  Optional[Enum['ssl3', 'tls', 'tls11', 'tls12', 'tls13']] 
+  Optional[Enum['ssl3', 'tls', 'tls11', 'tls12', 'tls13']]
   $security_protocol                 = undef,
   Optional[Integer] $timeout         = undef,
   Optional[Array[String]] $cookies   = undef,
