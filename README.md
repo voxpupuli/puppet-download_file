@@ -97,7 +97,7 @@ The optional userid is used when authenticating via Basic Auth with the server.
 
 #### `password`
 
-The optional password is used when authenticating via Basic Auth with the server. 
+The optional password is used when authenticating via Basic Auth with the server.
 `user` and `password` must be specified or this has no effect.
 
 #### `proxy_address`
