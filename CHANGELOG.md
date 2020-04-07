@@ -4,7 +4,30 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v3.2.0](https://github.com/voxpupuli/puppet-download_file/tree/v3.2.0) (2018-10-13)
+## [v4.0.0](https://github.com/voxpupuli/puppet-download_file/tree/v4.0.0) (2020-04-07)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-download_file/compare/v3.2.0...v4.0.0)
+
+**Breaking changes:**
+
+- modulesync 2.7.0 and drop puppet 4 [\#88](https://github.com/voxpupuli/puppet-download_file/pull/88) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Allow enabled SSL protocols to be specified [\#86](https://github.com/voxpupuli/puppet-download_file/pull/86) ([aadamovich](https://github.com/aadamovich))
+
+**Closed issues:**
+
+- puppetlabs/stdlib version below 6.0.0 [\#96](https://github.com/voxpupuli/puppet-download_file/issues/96)
+- Delete powershell file after download complete [\#31](https://github.com/voxpupuli/puppet-download_file/issues/31)
+
+**Merged pull requests:**
+
+- Allow puppetlabs/stdlib 6.x [\#97](https://github.com/voxpupuli/puppet-download_file/pull/97) ([dhoppe](https://github.com/dhoppe))
+- Remove duplicate CONTRIBUTING.md file [\#93](https://github.com/voxpupuli/puppet-download_file/pull/93) ([dhoppe](https://github.com/dhoppe))
+- Remove spurious space from operatingsystem [\#89](https://github.com/voxpupuli/puppet-download_file/pull/89) ([ekohl](https://github.com/ekohl))
+
+## [v3.2.0](https://github.com/voxpupuli/puppet-download_file/tree/v3.2.0) (2018-10-14)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-download_file/compare/v3.1.0...v3.2.0)
 
