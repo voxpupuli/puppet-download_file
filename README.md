@@ -7,6 +7,8 @@
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/download_file.svg)](https://forge.puppetlabs.com/puppet/download_file)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/download_file.svg)](https://forge.puppetlabs.com/puppet/download_file)
 
+**The module is deprecated, please switch to [forge.puppet.com/puppet/archive](https://forge.puppet.com/modules/puppet/archive/readme)**
+
 #### Table of Contents
 
 1. [Overview](#overview)
